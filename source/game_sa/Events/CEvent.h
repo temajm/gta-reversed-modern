@@ -36,7 +36,7 @@ public:
     virtual bool AffectsPedGroup(CPedGroup* pedGroup) { return true; };
     virtual bool IsCriminalEvent() { return false; }
     virtual void ReportCriminalEvent(CPed* ped) { }; // empty
-    virtual bool HasEditableResponse() { return false; }
+    virtual bool HasEditableResponse() const { return false; }
     virtual CEntity* GetSourceEntity() const { return nullptr; }
     virtual bool TakesPriorityOver(const CEvent& refEvent) { return GetEventPriority() >= refEvent.GetEventPriority(); }
     virtual float GetLocalSoundLevel() { return 0.0f; }

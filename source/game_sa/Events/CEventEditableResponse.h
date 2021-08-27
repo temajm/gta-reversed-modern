@@ -9,19 +9,13 @@ public:
     short field_10;
     unsigned short field_12;
 
-    static void InjectHooks();
-
+public:
     CEventEditableResponse();
     ~CEventEditableResponse();
-private:
-    CEventEditableResponse* Constructor();
-public:
-    CEvent* Clone() override;
-    bool HasEditableResponse() override;
-    virtual CEventEditableResponse* CloneEditable() = 0;
 
-    CEvent* Clone_Reversed();
-    bool HasEditableResponse_Reversed() { return true; }
+    CEvent* Clone() override;
+    bool HasEditableResponse() const override;
+    virtual CEventEditableResponse* CloneEditable() = 0;
 
     bool WillRespond();
     void InformVehicleOccupants(CPed* ped);
@@ -31,6 +25,14 @@ public:
     void ComputeResponseTaskType(CPed* ped, bool bDecisionMakerTypeInGroup);
     void ComputeResponseTaskType(CPedGroup* pedGroup);
     bool ComputeResponseTaskOfType(CPed* ped, int taskId);
+
+private:
+    friend void InjectHooksMain();
+    static void InjectHooks();
+
+    CEventEditableResponse* Constructor();
+    CEvent* Clone_Reversed();
+    bool HasEditableResponse_Reversed() const { return true; }
 };
 
 VALIDATE_SIZE(CEventEditableResponse, 0x14);
