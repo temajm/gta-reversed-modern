@@ -135,8 +135,19 @@ inline void CBike::ProcessPedInVehicleBuoyancy(CPed* pPed, bool bIsDriver)
         }
     }
     else {
-        auto knockOffBikeEvent = CEventKnockOffBike(this, &m_vecMoveSpeed, &m_vecLastCollisionImpactVelocity, m_fDamageIntensity,
-            0.0F, eKnockOffType::KNOCK_OFF_TYPE_FALL, 0, 0, nullptr, bIsDriver, false);
+        auto knockOffBikeEvent = CEventKnockOffBike(
+            this,
+            m_vecMoveSpeed,
+            m_vecLastCollisionImpactVelocity,
+            m_fDamageIntensity,
+            0.0F,
+            eKnockOffType::KNOCK_OFF_TYPE_FALL,
+            0,
+            0,
+            nullptr,
+            bIsDriver,
+            false
+        );
 
         pPed->GetEventGroup().Add(&knockOffBikeEvent, false);
         if (bIsDriver)

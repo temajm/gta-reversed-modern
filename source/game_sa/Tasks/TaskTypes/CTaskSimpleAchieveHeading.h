@@ -13,7 +13,7 @@ public:
     ~CTaskSimpleAchieveHeading() override;
 
     bool ProcessPed(class CPed* ped) override;
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_SIMPLE_ACHIEVE_HEADING; }
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override;
 };

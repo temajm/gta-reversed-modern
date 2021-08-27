@@ -26,12 +26,12 @@ public:
 
     static void InjectHooks();
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_SIMPLE_JUMP; }
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override;
     bool ProcessPed(CPed* ped) override;
 
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
     bool MakeAbortable_Reversed(CPed* ped, eAbortPriority priority, const CEvent* event);
     bool ProcessPed_Reversed(CPed* ped);
 

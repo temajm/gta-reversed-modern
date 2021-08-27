@@ -27,15 +27,11 @@ CEventGunShot::~CEventGunShot()
         m_entity->CleanUpOldReference(&m_entity);
 }
 
+// 0x4AC610
 CEventGunShot* CEventGunShot::Constructor(CEntity* entity, CVector startPoint, CVector endPoint, bool bHasNoSound)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<CEventGunShot*, 0x4AC610, CEvent*, CEntity*, CVector, CVector, bool>
-        (this, entity, startPoint, endPoint, bHasNoSound);
-#else
     this->CEventGunShot::CEventGunShot(entity, startPoint, endPoint, bHasNoSound);
     return this;
-#endif
 }
 
 // 0x4B2CD0
@@ -57,11 +53,10 @@ bool CEventGunShot::TakesPriorityOver(const CEvent& refEvent)
 }
 
 // 0x4B6B20
-CEventEditableResponse* CEventGunShot::CloneEditable()
+CEventEditableResponse* CEventGunShot::CloneEditable() const
 {
     return CEventGunShot::CloneEditable_Reversed();
 }
-
 
 bool CEventGunShot::AffectsPed_Reversed(CPed* ped)
 {
@@ -124,7 +119,7 @@ bool CEventGunShot::TakesPriorityOver_Reversed(const CEvent& refEvent)
     return GetEventPriority() >= refEvent.GetEventPriority();
 }
 
-CEventEditableResponse* CEventGunShot::CloneEditable_Reversed()
+CEventEditableResponse* CEventGunShot::CloneEditable_Reversed() const
 {
     return new CEventGunShot(m_entity, m_startPoint, m_endPoint, m_bHasNoSound);
 }

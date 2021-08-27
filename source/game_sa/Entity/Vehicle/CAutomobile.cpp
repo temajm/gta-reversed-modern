@@ -2478,8 +2478,19 @@ inline void CAutomobile::ProcessPedInVehicleBuoyancy(CPed* pPed, bool bIsDriver)
         vecCollisionImpact.Normalise();
         auto fDamageIntensity = m_vecMoveSpeed.Magnitude() * m_fMass;
 
-        auto knockOffBikeEvent = CEventKnockOffBike(this, &m_vecMoveSpeed, &vecCollisionImpact, fDamageIntensity,
-            0.0F, eKnockOffType::KNOCK_OFF_TYPE_FALL, 0, 0, nullptr, false, false);
+        auto knockOffBikeEvent = CEventKnockOffBike(
+            this,
+            m_vecMoveSpeed,
+            vecCollisionImpact,
+            fDamageIntensity,
+            0.0F,
+            eKnockOffType::KNOCK_OFF_TYPE_FALL,
+            0,
+            0,
+            nullptr,
+            false,
+            false
+        );
 
         pPed->GetEventGroup().Add(&knockOffBikeEvent, false);
 

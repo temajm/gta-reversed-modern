@@ -31,12 +31,12 @@ CEventGroupEvent* CEventGroupEvent::Constructor(CPed* ped, CEvent* event)
 }
 
 // 0x4B6EE0
-CEvent* CEventGroupEvent::Clone()
+CEvent* CEventGroupEvent::Clone() const
 {
     return CEventGroupEvent::Clone_Reversed();
 }
 
-CEvent* CEventGroupEvent::Clone_Reversed()
+CEvent* CEventGroupEvent::Clone_Reversed() const
 {
     return new CEventGroupEvent(m_ped, m_event->Clone());
 }

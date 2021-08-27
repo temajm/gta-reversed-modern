@@ -17,13 +17,13 @@ public:
 public:
     static void InjectHooks();
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override;
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override;
     bool ProcessPed(CPed* ped) override;
 
 private:
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
     eTaskType GetId_Reversed();
     bool MakeAbortable_Reversed(CPed* ped, eAbortPriority priority, const CEvent* event);
     bool ProcessPed_Reversed(CPed* ped);

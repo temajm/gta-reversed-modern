@@ -60,13 +60,10 @@ CTaskComplexGoToPointAndStandStill* CTaskComplexGoToPointAndStandStill::Construc
 #endif
 }
 
-CTask* CTaskComplexGoToPointAndStandStill::Clone()
+// 0x66CEA0
+CTask* CTaskComplexGoToPointAndStandStill::Clone() const
 {
-#ifdef USE_DEFAULT_FUNCTIONS 
-    return plugin::CallMethodAndReturn<CTask*, 0x66CEA0, CTask*>(this);
-#else
     return CTaskComplexGoToPointAndStandStill::Clone_Reversed();
-#endif
 }
 
 CTask* CTaskComplexGoToPointAndStandStill::CreateNextSubTask(CPed* ped)
@@ -96,7 +93,7 @@ CTask* CTaskComplexGoToPointAndStandStill::ControlSubTask(CPed* ped)
 #endif
 }
 
-CTask* CTaskComplexGoToPointAndStandStill::Clone_Reversed()
+CTask* CTaskComplexGoToPointAndStandStill::Clone_Reversed() const
 {
     return new CTaskComplexGoToPointAndStandStill(m_moveState, m_vecTargetPoint, m_fRadius, m_fMoveStateRadius, m_b01, m_bGoToPoint);
 }

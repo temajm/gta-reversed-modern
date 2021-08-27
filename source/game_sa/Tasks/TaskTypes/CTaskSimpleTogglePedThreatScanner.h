@@ -10,7 +10,7 @@ public:
     CTaskSimpleTogglePedThreatScanner(bool bScanAllowedScriptPed, bool bScanAllowedInVehicle, bool bScanAllowedScriptedTask);
     ~CTaskSimpleTogglePedThreatScanner() {}
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_SIMPLE_TOGGLE_PED_THREAT_SCANNER; }
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override { return false; }
     bool ProcessPed(CPed* ped) override;

@@ -21,46 +21,33 @@ CTaskSimpleStandStill::~CTaskSimpleStandStill()
     // nothing here
 }
 
+// 0x62F310
 CTaskSimpleStandStill* CTaskSimpleStandStill::Constructor(int nTime, bool Looped, bool bUseAnimIdleStance, float fBlendData)
 {
-#ifdef USE_DEFAULT_FUNCTIONS 
-    return plugin::CallMethodAndReturn<CTaskSimpleStandStill*,0x62F310, CTaskSimpleStandStill*, int, bool, bool, float>
-        (this, nTime, Looped, bUseAnimIdleStance, fBlendData);
-#else
     this->CTaskSimpleStandStill::CTaskSimpleStandStill(nTime, Looped, bUseAnimIdleStance, fBlendData);
     return this;
-#endif
 }
 
-CTask* CTaskSimpleStandStill::Clone()
+// 0x635CF0
+CTask* CTaskSimpleStandStill::Clone() const
 {
-#ifdef USE_DEFAULT_FUNCTIONS 
-    return plugin::CallMethodAndReturn<CTask*, 0x635CF0, CTask*>(this);
-#else
     return CTaskSimpleStandStill::Clone_Reversed();
-#endif
 }
 
+// 0x4B8690
 bool CTaskSimpleStandStill::MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event)
 {
-#ifdef USE_DEFAULT_FUNCTIONS 
-    return plugin::CallMethodAndReturn<bool, 0x4B8690, CTask*, CPed*, int, const CEvent*>(this, ped, priority, event);
-#else
     return CTaskSimpleStandStill::MakeAbortable_Reversed(ped, priority, event);
-#endif
 }
 
+// 0x62F370
 bool CTaskSimpleStandStill::ProcessPed(CPed* ped)
 {
-#ifdef USE_DEFAULT_FUNCTIONS 
-    return plugin::CallMethodAndReturn<bool, 0x62F370, CTask*, CPed*>(this, ped);
-#else
     return CTaskSimpleStandStill::ProcessPed_Reversed(ped);
-#endif
 }
 
 
-CTask* CTaskSimpleStandStill::Clone_Reversed()
+CTask* CTaskSimpleStandStill::Clone_Reversed() const
 {
     return new CTaskSimpleStandStill(m_nTime, m_bLooped, m_bUseAnimIdleStance, m_fBlendData);
 }
@@ -69,6 +56,7 @@ bool CTaskSimpleStandStill::MakeAbortable_Reversed(CPed* ped, eAbortPriority pri
 {
     if (priority)
         return true;
+
     m_timer.m_nStartTime = CTimer::m_snTimeInMilliseconds;
     m_timer.m_nInterval = -1;
     m_timer.m_bStarted = true;
@@ -106,5 +94,6 @@ bool CTaskSimpleStandStill::ProcessPed_Reversed(CPed* ped)
     }
     if (m_bLooped || !m_timer.Reset())
         return false;
+
     return m_timer.IsOutOfTime();
 }

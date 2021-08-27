@@ -31,26 +31,26 @@ void CEventBuildingCollision::InjectHooks()
     HookInstall(0x4B3120, &CEventBuildingCollision::CanTreatBuildingAsObject);
 }
 
-CEventPedCollisionWithPed::CEventPedCollisionWithPed(std::int16_t pieceType, float damageIntensity, CPed* victim, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState, std::int16_t victimMoveState)
+CEventPedCollisionWithPed::CEventPedCollisionWithPed(uint16_t pieceType, float damageIntensity, const CPed* victim, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState, int32_t victimMoveState)
 {
     m_pieceType = pieceType;
     m_damageIntensity = damageIntensity;
-    m_victim = victim;
-    m_collisionImpactVelocity = *collisionImpactVelocity;
-    m_collisionPos = *collisionPos;
-    m_movestate = moveState;
+    // TODO: IZZOTOP m_victim = victim;
+    m_collisionImpactVelocity = collisionImpactVelocity;
+    m_collisionPos = collisionPos;
+    m_moveState = moveState;
     m_victimMoveState = victimMoveState;
-    if (victim)
-        victim->RegisterReference(reinterpret_cast<CEntity**>(&m_victim));
+    // TODO: IZZOTOP if (m_victim)
+    // TODO: IZZOTOP     m_victim->RegisterReference(reinterpret_cast<CEntity**>(m_victim));
 }
 
 CEventPedCollisionWithPed::~CEventPedCollisionWithPed()
 {
     if (m_victim)
-        m_victim->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_victim));
+        m_victim->CleanUpOldReference(reinterpret_cast<CEntity**>(m_victim));
 }
 
-CEventPedCollisionWithPed* CEventPedCollisionWithPed::Constructor(std::int16_t pieceType, float damageIntensity, CPed* victim, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState, std::int16_t victimMoveState)
+CEventPedCollisionWithPed* CEventPedCollisionWithPed::Constructor(uint16_t pieceType, float damageIntensity, const CPed* victim, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState, int32_t victimMoveState)
 {
     this->CEventPedCollisionWithPed::CEventPedCollisionWithPed(pieceType, damageIntensity, victim, collisionImpactVelocity, collisionPos, moveState, victimMoveState);
     return this;
@@ -79,7 +79,7 @@ bool CEventPedCollisionWithPed::AffectsPed_Reversed(CPed* ped)
 {
     if (ped->IsAlive() && !ped->m_pAttachedTo && m_victim && !ped->bInVehicle && !m_victim->bInVehicle &&
         m_victim->GetIntelligence()->m_AnotherStaticCounter <= 30 && !ped->GetIntelligence()->IsThreatenedBy(*m_victim)) {
-        if (m_movestate < PEDMOVE_WALK) {
+        if (m_moveState < PEDMOVE_WALK) {
             CPedGroup* victimGroup = CPedGroups::GetPedsGroup(m_victim);
             if (victimGroup && !victimGroup->GetMembership().IsLeader(m_victim)) {
                 if (DotProduct(m_collisionImpactVelocity, ped->GetForward()) > -0.5f)
@@ -116,59 +116,56 @@ bool CEventPedCollisionWithPed::AffectsPed_Reversed(CPed* ped)
     return false;
 }
 
-CEventPedCollisionWithPlayer::CEventPedCollisionWithPlayer(std::int16_t pieceType, float damageIntensity, CPed* victim, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState, std::int16_t victimMoveState) :
+CEventPedCollisionWithPlayer::CEventPedCollisionWithPlayer(uint16_t pieceType, float damageIntensity, const CPed* victim, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState, int32_t victimMoveState) :
     CEventPedCollisionWithPed(pieceType, damageIntensity, victim, collisionImpactVelocity, collisionPos, moveState, victimMoveState)
 {
 }
 
-CEventPedCollisionWithPlayer* CEventPedCollisionWithPlayer::Constructor(std::int16_t pieceType, float damageIntensity, CPed* victim, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState, std::int16_t victimMoveState)
+CEventPedCollisionWithPlayer* CEventPedCollisionWithPlayer::Constructor(uint16_t pieceType, float damageIntensity, const CPed* victim, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState, int32_t victimMoveState)
 {
     this->CEventPedCollisionWithPlayer::CEventPedCollisionWithPlayer(pieceType, damageIntensity, victim, collisionImpactVelocity, collisionPos, moveState, victimMoveState);
     return this;
 }
 
-CEventPlayerCollisionWithPed::CEventPlayerCollisionWithPed(std::int16_t pieceType, float damageIntensity, CPed* victim, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState, std::int16_t victimMoveState) :
+CEventPlayerCollisionWithPed::CEventPlayerCollisionWithPed(uint16_t pieceType, float damageIntensity, const CPed* victim, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState, int32_t victimMoveState) :
     CEventPedCollisionWithPed(pieceType, damageIntensity, victim, collisionImpactVelocity, collisionPos, moveState, victimMoveState)
 {
 }
 
-CEventPlayerCollisionWithPed* CEventPlayerCollisionWithPed::Constructor(std::int16_t pieceType, float damageIntensity, CPed* victim, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState, std::int16_t victimMoveState)
+CEventPlayerCollisionWithPed* CEventPlayerCollisionWithPed::Constructor(uint16_t pieceType, float damageIntensity, const CPed* victim, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState, int32_t victimMoveState)
 {
     this->CEventPlayerCollisionWithPed::CEventPlayerCollisionWithPed(pieceType, damageIntensity, victim, collisionImpactVelocity, collisionPos, moveState, victimMoveState);
     return this;
 }
 
-CEventObjectCollision::CEventObjectCollision(std::int16_t pieceType, float damageIntensity, CObject* object, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState)
+CEventObjectCollision::CEventObjectCollision(uint16_t pieceType, float damageIntensity, const CObject* object, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState)
 {
     m_pieceType = pieceType;
     m_moveState = moveState;
     m_damageIntensity = damageIntensity;
     m_object = object;
-    m_collisionImpactVelocity = *collisionImpactVelocity;
-    m_collisionPos = *collisionPos;
-    if (m_object)
-        m_object->RegisterReference(reinterpret_cast<CEntity**>(&m_object));
+    m_collisionImpactVelocity = collisionImpactVelocity;
+    m_collisionPos = collisionPos;
+    // TODO: IZZOTOP if (m_object)
+    // TODO: IZZOTOP     m_object->RegisterReference(reinterpret_cast<const CEntity**>(m_object));
 }
 
 CEventObjectCollision::~CEventObjectCollision()
 {
-    if (m_object)
-        m_object->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_object));
+    // TODO: IZZOTOP if (m_object)
+    // TODO: IZZOTOP     m_object->CleanUpOldReference(reinterpret_cast<const CEntity**>(m_object));
 }
 
-CEventObjectCollision* CEventObjectCollision::Constructor(std::int16_t pieceType, float damageIntensity, CObject* object, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState)
+CEventObjectCollision* CEventObjectCollision::Constructor(uint16_t pieceType, float damageIntensity, const CObject* object, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState)
 {
     this->CEventObjectCollision::CEventObjectCollision(pieceType, damageIntensity, object, collisionImpactVelocity, collisionPos, moveState);
     return this;
 }
 
+// 0x4ACE30
 bool CEventObjectCollision::AffectsPed(CPed* ped)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<bool, 0x4ACE30, CEventObjectCollision*, CPed*>(this, ped);
-#else
     return CEventObjectCollision::AffectsPed_Reversed(ped);
-#endif
 }
 
 bool CEventObjectCollision::AffectsPed_Reversed(CPed* ped)
@@ -182,37 +179,34 @@ bool CEventObjectCollision::AffectsPed_Reversed(CPed* ped)
     return false;
 }
 
-CEventBuildingCollision::CEventBuildingCollision(std::int16_t pieceType, float damageIntensity, CBuilding* building, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState)
+CEventBuildingCollision::CEventBuildingCollision(uint16_t pieceType, float damageIntensity, const CBuilding* building, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState)
 {
     m_pieceType = pieceType;
     m_moveState = moveState;
     m_damageIntensity = damageIntensity;
     m_building = building;
-    m_collisionImpactVelocity = *collisionImpactVelocity;
-    m_collisionPos = *collisionPos;
-    if (building)
-        m_building->RegisterReference(reinterpret_cast<CEntity**>(&m_building));
+    m_collisionImpactVelocity = collisionImpactVelocity;
+    m_collisionPos = collisionPos;
+    // TODO: IZZOTOP if (building)
+    // TODO: IZZOTOP     m_building->RegisterReference(reinterpret_cast<const CEntity**>(&m_building));
 }
 
 CEventBuildingCollision::~CEventBuildingCollision()
 {
-    if (m_building)
-        m_building->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_building));
+    // TODO: IZZOTOP if (m_building)
+    // TODO: IZZOTOP     m_building->CleanUpOldReference(reinterpret_cast<const CEntity**>(&m_building));
 }
 
-CEventBuildingCollision* CEventBuildingCollision::Constructor(std::int16_t pieceType, float damageIntensity, CBuilding* building, CVector* collisionImpactVelocity, CVector* collisionPos, std::int16_t moveState)
+CEventBuildingCollision* CEventBuildingCollision::Constructor(uint16_t pieceType, float damageIntensity, const CBuilding* building, const CVector& collisionImpactVelocity, const CVector& collisionPos, int32_t moveState)
 {
     this->CEventBuildingCollision::CEventBuildingCollision(pieceType, damageIntensity, building, collisionImpactVelocity, collisionPos, moveState);
     return this;
 }
 
+// 0x4AD070
 bool CEventBuildingCollision::AffectsPed(CPed* ped)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<bool, 0x4AD070, CEventBuildingCollision*, CPed*>(this, ped);
-#else
     return CEventBuildingCollision::AffectsPed_Reversed(ped);
-#endif
 }
 
 bool CEventBuildingCollision::AffectsPed_Reversed(CPed* ped)
@@ -241,25 +235,21 @@ bool CEventBuildingCollision::AffectsPed_Reversed(CPed* ped)
     return false;
 }
 
+// 0x4AD1E0
 bool CEventBuildingCollision::IsHeadOnCollision(CPed* ped)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<bool, 0x4AD1E0, CEventBuildingCollision*, CPed*>(this, ped);
-#else
     CVector velocity = m_collisionImpactVelocity;
     velocity.z = 0.0f;
     velocity.Normalise();
     return -DotProduct(velocity, ped->GetForward()) > 0.866f;
-#endif
 }
 
+// 0x4B3120
 bool CEventBuildingCollision::CanTreatBuildingAsObject(CBuilding* building)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallAndReturn<bool, 0x4B3120, CBuilding*>(building);
-#else
     if (building->m_bIsTempBuilding)
         return true;
+
     CColModel* colModel = CModelInfo::GetModelInfo(building->m_nModelIndex)->GetColModel();
     CVector& boundMax = colModel->m_boundBox.m_vecMax;
     CVector& boundMin = colModel->m_boundBox.m_vecMin;
@@ -272,5 +262,4 @@ bool CEventBuildingCollision::CanTreatBuildingAsObject(CBuilding* building)
         return true;
     }
     return false;
-#endif
 }

@@ -23,7 +23,7 @@ public:
     int GetLifeTime() override {
         return 0;
     }
-    CEvent* Clone() override;
+    CEvent* Clone() const override;
     bool AffectsPed(CPed* ped) override {
         return false;
     }
@@ -34,7 +34,7 @@ public:
         return 100.0f;
     }
 
-    CEvent* Clone_Reversed();
+    CEvent* Clone_Reversed() const;
     bool BaseEventTakesPriorityOverBaseEvent(const CEventGroupEvent& other);
 
 private:

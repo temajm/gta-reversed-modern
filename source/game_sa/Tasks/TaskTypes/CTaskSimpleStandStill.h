@@ -6,34 +6,34 @@
 */
 #pragma once
 
-#include "PluginBase.h"
 #include "CTaskSimple.h"
 #include "CTaskTimer.h"
 
-class  CTaskSimpleStandStill : public CTaskSimple {
+class CTaskSimpleStandStill : public CTaskSimple {
 public:
     int m_nTime;
     CTaskTimer m_timer;
     bool m_bLooped;
     bool m_bUseAnimIdleStance;
-private:
     char _pad[2];
-public:
     float m_fBlendData;
 
-    static void InjectHooks();
-
+public:
     CTaskSimpleStandStill(int nTime, bool Looped, bool bUseAnimIdleStance, float fBlendData);
     ~CTaskSimpleStandStill();
-private:
-	CTaskSimpleStandStill* Constructor(int nTime, bool Looped, bool bUseAnimIdleStance, float fBlendData);
-public:
-    CTask* Clone()  override;
+
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_SIMPLE_STAND_STILL; };
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override;
     bool ProcessPed(CPed* ped) override;
 
-    CTask* Clone_Reversed();
+private:
+    friend void InjectHooksMain();
+    static void InjectHooks();
+
+    CTaskSimpleStandStill* Constructor(int nTime, bool Looped, bool bUseAnimIdleStance, float fBlendData);
+
+    CTask* Clone_Reversed() const;
     bool MakeAbortable_Reversed(CPed* ped, eAbortPriority priority, const CEvent* event);
     bool ProcessPed_Reversed(CPed* ped);
 };

@@ -22,7 +22,7 @@ CEventVehicleDamageCollision* CEventVehicleDamageCollision::Constructor(CVehicle
 #endif
 }
 
-CEventEditableResponse* CEventVehicleDamageCollision::CloneEditable()
+CEventEditableResponse* CEventVehicleDamageCollision::CloneEditable() const
 {
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallMethodAndReturn<CEventEditableResponse*, 0x6A0670, CEvent*>(this);
@@ -31,7 +31,7 @@ CEventEditableResponse* CEventVehicleDamageCollision::CloneEditable()
 #endif
 }
 
-CEventEditableResponse* CEventVehicleDamageCollision::CloneEditable_Reversed()
+CEventEditableResponse* CEventVehicleDamageCollision::CloneEditable_Reversed() const
 {
     return new CEventVehicleDamageCollision(m_vehicle, m_attacker, m_weaponType);
 }

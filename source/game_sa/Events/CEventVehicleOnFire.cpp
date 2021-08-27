@@ -39,7 +39,7 @@ bool CEventVehicleOnFire::AffectsPed(CPed* ped)
 #endif
 }
 
-CEventEditableResponse* CEventVehicleOnFire::CloneEditable()
+CEventEditableResponse* CEventVehicleOnFire::CloneEditable() const
 {
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallMethodAndReturn<CEventEditableResponse*, 0x4B7740, CEvent*>(this);
@@ -68,7 +68,7 @@ bool CEventVehicleOnFire::AffectsPed_Reversed(CPed* ped)
     return false;
 }
 
-CEventEditableResponse* CEventVehicleOnFire::CloneEditable_Reversed()
+CEventEditableResponse* CEventVehicleOnFire::CloneEditable_Reversed() const
 {
     return new CEventVehicleOnFire(m_vehicle);
 }

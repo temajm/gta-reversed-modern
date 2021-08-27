@@ -15,10 +15,10 @@ public:
     CTaskComplexEnterCarAsDriver(CVehicle* pTargetVehicle);
     ~CTaskComplexEnterCarAsDriver() {}
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_COMPLEX_ENTER_CAR_AS_DRIVER; }
 
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
 
 };
 

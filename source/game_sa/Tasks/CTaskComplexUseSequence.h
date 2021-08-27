@@ -16,7 +16,7 @@ public:
     CTaskComplexUseSequence(int sequenceIndex);
     ~CTaskComplexUseSequence();
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override;
     bool MakeAbortable(class CPed* ped, eAbortPriority priority, const CEvent* event) override;
     CTask* CreateNextSubTask(CPed* ped) override;
@@ -29,7 +29,7 @@ private:
 
     CTaskComplexUseSequence* Constructor(int sequenceIndex);
 
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
     eTaskType GetId_Reversed() { return TASK_COMPLEX_USE_SEQUENCE; };
     bool MakeAbortable_Reversed(class CPed* ped, eAbortPriority priority, const CEvent* event);
     CTask* CreateNextSubTask_Reversed(CPed* ped);

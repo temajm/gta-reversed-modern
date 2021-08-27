@@ -19,10 +19,10 @@ public:
     bool AffectsPed(CPed* ped) override;
     CEntity* GetSourceEntity() const override { return m_vehicle ? m_vehicle->m_pDriver : nullptr; }
     float GetLocalSoundLevel() override { return 55.0f; }
-    CEventEditableResponse* CloneEditable() override;
+    CEventEditableResponse* CloneEditable() const override;
 
     bool AffectsPed_Reversed(CPed* ped);
-    CEventEditableResponse* CloneEditable_Reversed();
+    CEventEditableResponse* CloneEditable_Reversed() const;
 };
 
 VALIDATE_SIZE(CEventGotKnockedOverByCar, 0x18);

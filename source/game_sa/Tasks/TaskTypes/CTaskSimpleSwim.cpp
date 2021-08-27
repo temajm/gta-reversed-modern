@@ -19,12 +19,12 @@ void CTaskSimpleSwim::InjectHooks() {
     HookInstall(0x68AA50, &CTaskSimpleSwim::DestroyFxSystem);
 }
 
-CTaskSimpleSwim::CTaskSimpleSwim(CVector* pPosition, CPed* pPed) {
+CTaskSimpleSwim::CTaskSimpleSwim(const CVector& position, CPed* ped) {
     m_bFinishedBlending = false;
     m_bAnimBlockRefAdded = false;
     m_fAnimSpeed = -1.0f;
     m_vecPos = CVector(0.0f, 0.0f, 0.0f);
-    m_pPed = pPed;
+    m_pPed = ped;
     m_fRotationX = 0.0f;
     m_fTurningRotationY = 0.0f;
     m_fUpperTorsoRotationX = 0.0f;
@@ -35,10 +35,10 @@ CTaskSimpleSwim::CTaskSimpleSwim(CVector* pPosition, CPed* pPed) {
     m_nTimeStep = 0;
     m_nSwimState = SWIM_TREAD;
     m_AnimID = ANIM_ID_NO_ANIMATION_SET;
-    if (pPosition)
-        m_vecPos = *pPosition;
-    if (pPed)
-        pPed->RegisterReference(reinterpret_cast<CEntity**>(&m_pPed));
+    // TODO: Izotop: if (position)
+        m_vecPos = position;
+    if (ped)
+        ped->RegisterReference(reinterpret_cast<CEntity**>(&m_pPed));
     m_pFxSystem = nullptr;
     m_bTriggerWaterSplash = false;
     m_fRandomMoveBlendRatio = 0.0f;
@@ -56,29 +56,20 @@ CTaskSimpleSwim::~CTaskSimpleSwim() {
         m_pPed->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_pPed));
 }
 
-CTaskSimpleSwim* CTaskSimpleSwim::Constructor(CVector* pPosition, CPed* pPed) {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<CTaskSimpleSwim*, 0x688930, CTaskSimpleSwim*, CVector *, CPed*>(this, pPosition, pPed);
-#else
-    this->CTaskSimpleSwim::CTaskSimpleSwim(pPosition, pPed);
+// 0x688930
+CTaskSimpleSwim* CTaskSimpleSwim::Constructor(const CVector& position, CPed* pPed) {
+    this->CTaskSimpleSwim::CTaskSimpleSwim(position, pPed);
     return this;
-#endif
 }
 
-CTask* CTaskSimpleSwim::Clone() {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<CTask*, 0x68B050, CTask*>(this);
-#else
+// 0x68B050
+CTask* CTaskSimpleSwim::Clone() const {
     return CTaskSimpleSwim::Clone_Reversed();
-#endif
 }
 
+// 0x6889F0
 eTaskType CTaskSimpleSwim::GetId() {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn <eTaskType, 0x6889F0, CTask*>(this);
-#else
     return CTaskSimpleSwim::GetId_Reversed();
-#endif
 }
 
 // 0x68B100
@@ -87,17 +78,14 @@ bool CTaskSimpleSwim::MakeAbortable(class CPed* ped, eAbortPriority priority, co
     return MakeAbortable_Reversed(ped, priority, event);
 }
 
+// 0x68B1C0
 bool CTaskSimpleSwim::ProcessPed(CPed* pPed)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<bool, 0x68B1C0, CTaskSimpleSwim*, CPed*>(this, pPed);
-#else
     return ProcessPed_Reversed(pPed);
-#endif
 }
 
-CTask* CTaskSimpleSwim::Clone_Reversed() {
-    return new CTaskSimpleSwim(&m_vecPos, m_pPed);
+CTask* CTaskSimpleSwim::Clone_Reversed() const {
+    return new CTaskSimpleSwim(m_vecPos, m_pPed);
 }
 
 bool CTaskSimpleSwim::MakeAbortable_Reversed(class CPed* ped, eAbortPriority priority, const CEvent* event)
@@ -267,11 +255,9 @@ bool CTaskSimpleSwim::ProcessPed_Reversed(CPed* pPed)
     return false;
 }
 
+// 0x68A8E0
 void CTaskSimpleSwim::ApplyRollAndPitch(CPed* pPed)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    plugin::CallMethod<0x68A8E0, CTaskSimpleSwim*, CPed*>(this, pPed);
-#else
     LimbOrientation theLimbOrientation;
     theLimbOrientation.m_fYaw = m_fAimingRotation;
     theLimbOrientation.m_fPitch = m_fUpperTorsoRotationX;
@@ -279,7 +265,7 @@ void CTaskSimpleSwim::ApplyRollAndPitch(CPed* pPed)
     RwObject* pRwObject = pPed->m_pRwObject;
     if (pRwObject)
     {
-        CMatrix pedMatrix(pPed->GetModellingMatrix(), 0);
+        CMatrix pedMatrix(pPed->GetModellingMatrix(), false);
         CMatrix rotationMatrix;
         rotationMatrix.SetTranslate(CVector(0.0f, 0.0f, 0.0f));
         rotationMatrix.RotateY(m_fTurningRotationY);
@@ -288,7 +274,6 @@ void CTaskSimpleSwim::ApplyRollAndPitch(CPed* pPed)
         pedMatrix.UpdateRW();
         pPed->UpdateRwFrame();
     }
-#endif
 }
 
 void CTaskSimpleSwim::ProcessSwimAnims(CPed* pPed)
@@ -888,11 +873,9 @@ void CTaskSimpleSwim::ProcessEffects(CPed* pPed)
 #endif
 }
 
+// 0x689640
 void CTaskSimpleSwim::ProcessControlAI(CPed* pPed)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    plugin::CallMethod<0x689640, CTaskSimpleSwim*, CPed*>(this, pPed);
-#else
     m_nSwimState = SWIM_TREAD;
     if (m_pPed)
     {
@@ -964,14 +947,11 @@ void CTaskSimpleSwim::ProcessControlAI(CPed* pPed)
 
     if (!bPedGroupSet && !pPed->IsPlayer() && m_fAnimSpeed < 0.0f)
         pPed->m_vecAnimMovingShiftLocal *= 0.5f;
-#endif
 }
 
+// 0x688A90
 void CTaskSimpleSwim::ProcessControlInput(CPlayerPed* pPed)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    plugin::CallMethod<0x688A90, CTaskSimpleSwim*, CPlayerPed*>(this, pPed);
-#else
     CVector vecPedWalk;
     CPlayerPedData * pPlayerData = pPed->m_pPlayerData;
     if (!m_bFinishedBlending || !m_bAnimBlockRefAdded)
@@ -1412,12 +1392,11 @@ void CTaskSimpleSwim::ProcessControlInput(CPlayerPed* pPed)
         m_fAimingRotation = 0.0f;
         m_fUpperTorsoRotationX = 0.0f;
     }
+
     if (m_nSwimState == SWIM_SPRINT)
-        pPed->HandleSprintEnergy(0, 0.5f);
+        pPed->HandleSprintEnergy(false, 0.5f);
     else if (m_nSwimState != SWIM_SPRINTING)
-        pPed->HandleSprintEnergy(0, 1.0f);
-    return;
-#endif
+        pPed->HandleSprintEnergy(false, 1.0f);
 }
 
 void CTaskSimpleSwim::CreateFxSystem(CPed* pPed, RwMatrixTag* pRwMatrix)

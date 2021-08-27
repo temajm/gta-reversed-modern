@@ -1,28 +1,30 @@
 #pragma once
+
 #include "CTaskSimpleHoldEntity.h"
 
-class CTaskSimplePutDownEntity : public CTaskSimpleHoldEntity
-{
+class CTaskSimplePutDownEntity : public CTaskSimpleHoldEntity {
 public:
     float m_fPutDownHeightZ;
-    
-    static void InjectHooks();
 
-    CTaskSimplePutDownEntity();
-    CTaskSimplePutDownEntity(CEntity* pEntityToHold, CVector* pPosition, char boneFrameId, unsigned char boneFlags,
-        int animId, int groupId, bool bDisAllowDroppingOnAnimEnd, float fPutDownHeightZ);
-    CTaskSimplePutDownEntity(CEntity* pEntityToHold, CVector* pPosition, char boneFrameId, unsigned char boneFlags,
-        char* pAnimName, char* pAnimBlockName, int animFlags, float fPutDownHeightZ);
-    CTaskSimplePutDownEntity(CEntity* pEntityToHold, CVector* pPosition, char boneFrameId, unsigned char boneFlags,
-        CAnimBlock* pAnimBlock, CAnimBlendHierarchy* pAnimHierarchy, int animFlags, float fPutDownHeightZ);
-    ~CTaskSimplePutDownEntity();
-private:
-    CTaskSimplePutDownEntity* Constructor();
 public:
-    CTask* Clone() override;
+    CTaskSimplePutDownEntity();
+    CTaskSimplePutDownEntity(CEntity* entityToHold, const CVector& position, uint8_t boneFrameId, uint8_t boneFlags, const char* animName, const char* animBlockName, int animFlags, float fPutDownHeightZ);
+    CTaskSimplePutDownEntity(CEntity* entityToHold, const CVector& position, uint8_t boneFrameId, uint8_t boneFlags, CAnimBlock* animBlock, CAnimBlendHierarchy* animHierarchy, int animFlags, float fPutDownHeightZ);
+    CTaskSimplePutDownEntity(CEntity* entityToHold, const CVector& position, uint8_t boneFrameId, uint8_t boneFlags, int animId, int groupId, bool bDisAllowDroppingOnAnimEnd, float fPutDownHeightZ);
+    // TODO: int animId, int groupId -> AnimationId, AssocGroupId
+    ~CTaskSimplePutDownEntity();
+
+public:
+    CTask* Clone() const override;
     eTaskType GetId() override;
 
-    CTask* Clone_Reversed();
+private:
+    friend void InjectHooksMain();
+    static void InjectHooks();
+
+    CTaskSimplePutDownEntity* Constructor();
+
+    CTask* Clone_Reversed() const;
     eTaskType GetId_Reversed() { return TASK_SIMPLE_PUTDOWN_ENTITY; };
 };
 

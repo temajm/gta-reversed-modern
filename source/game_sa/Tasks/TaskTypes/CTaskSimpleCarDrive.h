@@ -46,7 +46,7 @@ public:
     CTaskSimpleCarDrive(CVehicle* pVehicle, CTaskUtilityLineUpPedWithCar* pUtilityTask, bool bUpdateCurrentVehicle);
 
     bool ProcessPed(class CPed* ped) override;
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_SIMPLE_CAR_DRIVE; }
     bool MakeAbortable(class CPed* ped, eAbortPriority priority, const CEvent* event) override;
 

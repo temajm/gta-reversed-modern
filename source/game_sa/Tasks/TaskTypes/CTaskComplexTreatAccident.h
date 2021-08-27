@@ -17,12 +17,12 @@ public:
     CTask* CreateNextSubTask(CPed* ped) override;
     CTask* CreateFirstSubTask(CPed* ped) override;
     CTask* ControlSubTask(CPed* ped) override;
-    CTask* Clone() override;
+    CTask* Clone() const override;
 
     CTask* CreateNextSubTask_Reversed(CPed* ped);
     CTask* CreateFirstSubTask_Reversed(CPed* ped);
     CTask* ControlSubTask_Reversed(CPed* ped);
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
 
     eTaskType GetId() override { return TASK_COMPLEX_TREAT_ACCIDENT; }
 

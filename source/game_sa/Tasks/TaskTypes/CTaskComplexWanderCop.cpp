@@ -44,13 +44,9 @@ CTaskComplexWanderCop* CTaskComplexWanderCop::Constructor(int moveState, unsigne
 #endif
 }
 
-
-CTask* CTaskComplexWanderCop::Clone() {
-#ifdef USE_DEFAULT_FUNCTIONS 
-    return plugin::CallMethodAndReturn<CTask*, 0x460CE0, CTaskComplexWander*>(this);
-#else
+// 0x460CE0
+CTask* CTaskComplexWanderCop::Clone() const {
     return new CTaskComplexWanderCop(m_nMoveState, m_nDir);
-#endif
 }
 
 CTask* CTaskComplexWanderCop::CreateNextSubTask(CPed* ped)
@@ -99,7 +95,7 @@ void CTaskComplexWanderCop::ScanForStuff(CPed* ped)
 #endif
 }
 
-CTask* CTaskComplexWanderCop::Clone_Reversed() {
+CTask* CTaskComplexWanderCop::Clone_Reversed() const {
     return new CTaskComplexWanderCop(m_nMoveState, m_nDir);
 }
 

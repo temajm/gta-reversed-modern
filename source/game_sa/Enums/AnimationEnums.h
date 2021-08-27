@@ -1,5 +1,6 @@
 #pragma once
 
+// AnimationId, AssocGroupId
 enum eAnimGroup
 {
     ANIM_GROUP_DEFAULT = 0,

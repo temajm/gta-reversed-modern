@@ -7,9 +7,9 @@ CTaskSimpleTogglePedThreatScanner::CTaskSimpleTogglePedThreatScanner(bool bScanA
     m_bScanAllowedScriptedTask = bScanAllowedScriptedTask;
 }
 
-CTask* CTaskSimpleTogglePedThreatScanner::Clone()
+CTask* CTaskSimpleTogglePedThreatScanner::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x492D50, CTask*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x492D50, CTask*>((CTask*)this);
 }
 
 bool CTaskSimpleTogglePedThreatScanner::ProcessPed(CPed* ped)

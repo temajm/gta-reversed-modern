@@ -47,13 +47,10 @@ CTaskComplexUseSequence* CTaskComplexUseSequence::Constructor(int sequenceIndex)
 #endif
 }
 
-CTask* CTaskComplexUseSequence::Clone()
+// 0x637100
+CTask* CTaskComplexUseSequence::Clone() const
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<CTask*, 0x637100, CTask*>(this);
-#else
     return Clone_Reversed();
-#endif
 }
 
 eTaskType CTaskComplexUseSequence::GetId()
@@ -98,7 +95,7 @@ CTask* CTaskComplexUseSequence::ControlSubTask(CPed* ped)
 #endif
 }
 
-CTask* CTaskComplexUseSequence::Clone_Reversed()
+CTask* CTaskComplexUseSequence::Clone_Reversed() const
 {
     auto pClonedComplexUseSequence = new CTaskComplexUseSequence;
     if (pClonedComplexUseSequence)

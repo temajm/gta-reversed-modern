@@ -22,7 +22,7 @@ public:
 
     eTaskType GetId() override { return TASK_SIMPLE_GIVE_CPR; }
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     bool ProcessPed(CPed* ped) override;
     bool MakeAbortable(class CPed* ped, eAbortPriority priority, const CEvent* event) override;
 
@@ -35,7 +35,7 @@ private:
 
     CTaskSimpleGiveCPR* Constructor(CAccident* pAccident);
 
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
     bool ProcessPed_Reversed(CPed* ped);
     bool MakeAbortable_Reversed(class CPed* ped, eAbortPriority priority, const CEvent* event);
 };

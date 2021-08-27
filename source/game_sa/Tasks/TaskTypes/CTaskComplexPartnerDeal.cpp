@@ -30,5 +30,5 @@ void CTaskComplexPartnerDeal::StreamRequiredAnims()
 
 CTaskComplexSequence* CTaskComplexPartnerDeal::GetPartnerSequence()
 {
-    return plugin::CallMethodAndReturn<CTaskComplexSequence*, 0x682440, CTask*>(this);
+    return plugin::CallMethodAndReturn<CTaskComplexSequence*, 0x682440, CTask*>((CTask*)this);
 }

@@ -28,12 +28,12 @@ public:
     bool TakesPriorityOver(const CEvent& refEvent) override;
     float GetLocalSoundLevel() override { return m_bHasNoSound ? 0.0f : 160.0f; }
     bool CanBeInterruptedBySameEvent() override { return true; }
-    CEventEditableResponse* CloneEditable() override;
+    CEventEditableResponse* CloneEditable() const override;
 
     bool AffectsPed_Reversed(CPed* ped);
     bool IsCriminalEvent_Reversed();
     bool TakesPriorityOver_Reversed(const CEvent& refEvent);
-    CEventEditableResponse* CloneEditable_Reversed();
+    CEventEditableResponse* CloneEditable_Reversed() const;
 };
 
 VALIDATE_SIZE(CEventGunShot, 0x34);

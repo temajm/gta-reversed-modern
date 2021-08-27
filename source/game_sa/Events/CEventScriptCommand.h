@@ -14,18 +14,14 @@ public:
     CEventScriptCommand(int32_t primaryTaskIndex, CTask* task, bool affectsDeadPeds);
     ~CEventScriptCommand();
 
-    eEventType GetEventType() const override {
-        return EVENT_SCRIPT_COMMAND;
-    }
+    eEventType GetEventType() const override { return EVENT_SCRIPT_COMMAND; }
     int32_t GetEventPriority() const override;
-    int GetLifeTime() override {
-        return 0;
-    }
-    CEvent* Clone() override;
+    int GetLifeTime() override { return 0; }
+    CEvent* Clone() const override;
     bool AffectsPed(CPed* ped) override;
     bool TakesPriorityOver(const CEvent& refEvent) override;
     bool IsValid(CPed* ped) override;
-    virtual CTask* CloneScriptTask();
+    virtual CTask* CloneScriptTask() const;
 
 private:
     friend void InjectHooksMain();
@@ -34,11 +30,11 @@ private:
     CEventScriptCommand* Constructor(int32_t primaryTaskIndex, CTask* task, bool affectsDeadPeds);
 
     int32_t GetEventPriority_Reversed() const;
-    CEvent* Clone_Reversed();
+    CEvent* Clone_Reversed() const;
     bool AffectsPed_Reversed(CPed* ped);
     bool TakesPriorityOver_Reversed(const CEvent& refEvent);
     bool IsValid_Reversed(CPed* ped);
-    CTask* CloneScriptTask_Reversed();
+    CTask* CloneScriptTask_Reversed() const;
 };
 
 VALIDATE_SIZE(CEventScriptCommand, 0x18);

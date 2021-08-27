@@ -11,7 +11,7 @@ private:
     CEventVehicleDamageCollision* Constructor(CVehicle* vehicle, CEntity* attacker, eWeaponType weaponType);
 public:
     eEventType GetEventType() const override { return EVENT_VEHICLE_DAMAGE_COLLISION; }
-    CEventEditableResponse* CloneEditable() override;
+    CEventEditableResponse* CloneEditable() const override;
 
-    CEventEditableResponse* CloneEditable_Reversed();
+    CEventEditableResponse* CloneEditable_Reversed() const;
 };

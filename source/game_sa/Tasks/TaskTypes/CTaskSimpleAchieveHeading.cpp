@@ -15,9 +15,9 @@ bool CTaskSimpleAchieveHeading::ProcessPed(CPed* ped)
     return plugin::CallMethodAndReturn<bool, 0x668060, CTaskSimpleAchieveHeading*, CPed*>(this, ped);
 }
 
-CTask* CTaskSimpleAchieveHeading::Clone()
+CTask* CTaskSimpleAchieveHeading::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x66CCF0, CTaskSimpleAchieveHeading*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x66CCF0, CTaskSimpleAchieveHeading*>((CTaskSimpleAchieveHeading*)this);
 }
 
 bool CTaskSimpleAchieveHeading::MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event)

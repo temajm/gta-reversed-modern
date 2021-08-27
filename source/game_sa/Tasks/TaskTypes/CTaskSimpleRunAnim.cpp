@@ -41,7 +41,7 @@ CTaskSimpleRunAnim::CTaskSimpleRunAnim(unsigned int animGroup, unsigned int anim
 }
 
 // 0x61B6D0
-CTask* CTaskSimpleRunAnim::Clone()
+CTask* CTaskSimpleRunAnim::Clone() const
 {
     return Clone_Reversed();
 }
@@ -52,7 +52,7 @@ bool CTaskSimpleRunAnim::ProcessPed(CPed* ped)
     return ProcessPed_Reversed(ped);
 }
 
-CTask* CTaskSimpleRunAnim::Clone_Reversed()
+CTask* CTaskSimpleRunAnim::Clone_Reversed() const
 {
     return new CTaskSimpleRunAnim(m_nAnimGroup, m_nAnimId, m_fBlendDelta, m_bHoldLastFrame);
 }

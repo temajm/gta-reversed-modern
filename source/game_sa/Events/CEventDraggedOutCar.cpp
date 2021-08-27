@@ -25,26 +25,20 @@ CEventDraggedOutCar::~CEventDraggedOutCar()
         m_carjacker->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_carjacker));
 }
 
+// 0x4AD250
 CEventDraggedOutCar* CEventDraggedOutCar::Constructor(CVehicle* vehicle, CPed* carjacker, bool IsDriverSeat)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<CEventDraggedOutCar*, 0x4AD250, CEvent*, CVehicle*, CPed*, bool>(this, vehicle, carjacker, IsDriverSeat);
-#else
     this->CEventDraggedOutCar::CEventDraggedOutCar(vehicle, carjacker, IsDriverSeat);
     return this;
-#endif
 }
 
-CEventEditableResponse* CEventDraggedOutCar::CloneEditable()
+// 0x4B6DC0
+CEventEditableResponse* CEventDraggedOutCar::CloneEditable() const
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<CEventEditableResponse*, 0x4B6DC0, CEvent*>(this);
-#else
     return CEventDraggedOutCar::CloneEditable_Reversed();
-#endif
 }
 
-CEventEditableResponse* CEventDraggedOutCar::CloneEditable_Reversed()
+CEventEditableResponse* CEventDraggedOutCar::CloneEditable_Reversed() const
 {
     return new CEventDraggedOutCar(m_vehicle, m_carjacker, m_IsDriverSeat);
 }

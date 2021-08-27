@@ -17,7 +17,7 @@ public:
 
     static void InjectHooks();
 
-    CTask* Clone() override { return new CTaskComplexFallAndGetUp(m_nFallAnimId, m_nFallAnimGroup, m_nFallDownTime); }
+    CTask* Clone() const override { return new CTaskComplexFallAndGetUp(m_nFallAnimId, m_nFallAnimGroup, m_nFallDownTime); }
     eTaskType GetId() override { return TASK_COMPLEX_FALL_AND_GET_UP; }
     CTask* CreateFirstSubTask(CPed* ped) override;
     CTask* CreateNextSubTask(CPed* ped) override;

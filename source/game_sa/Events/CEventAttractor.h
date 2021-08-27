@@ -21,10 +21,10 @@ public:
     int32_t GetEventPriority() const override { return 0; }
     int GetLifeTime() override { return 0; }
     bool AffectsPed(CPed* ped) override;
-    CEventEditableResponse* CloneEditable() override;
+    CEventEditableResponse* CloneEditable() const override;
 
     bool AffectsPed_Reversed(CPed* ped);
-    CEventEditableResponse* CloneEditable_Reversed();
+    CEventEditableResponse* CloneEditable_Reversed() const;
     static bool IsEffectActive(CEntity* entity, C2dEffect const* effect);
 };
 
@@ -41,7 +41,7 @@ private:
     CEventScriptedAttractor* Constructor(C2dEffect* the2dEffect, CEntity* entity, bool bAvoidLookingAtAttractor);
 public:
     eEventType GetEventType() const override { return EVENT_SCRIPTED_ATTRACTOR; }
-    CEventScriptedAttractor* CloneEditable() override { return new CEventScriptedAttractor(m_2dEffect, m_entity, false); }
+    CEventScriptedAttractor* CloneEditable() const override { return new CEventScriptedAttractor(m_2dEffect, m_entity, false); }
 
 };
 

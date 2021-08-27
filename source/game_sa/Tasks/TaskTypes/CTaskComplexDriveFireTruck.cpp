@@ -43,7 +43,7 @@ CTaskComplexDriveFireTruck::~CTaskComplexDriveFireTruck()
 }
 
 // 0x659BC0
-CTask* CTaskComplexDriveFireTruck::Clone()
+CTask* CTaskComplexDriveFireTruck::Clone() const
 {
     return Clone_Reversed();
 }
@@ -66,7 +66,7 @@ CTask* CTaskComplexDriveFireTruck::ControlSubTask(CPed* ped)
     return ControlSubTask_Reversed(ped);
 }
 
-CTask* CTaskComplexDriveFireTruck::Clone_Reversed()
+CTask* CTaskComplexDriveFireTruck::Clone_Reversed() const
 {
     return new CTaskComplexDriveFireTruck(m_pVehicle, m_pPartnerFireman, m_bIsDriver);
 }

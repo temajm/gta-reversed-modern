@@ -12,7 +12,7 @@ public:
     CTaskComplexGoToPointAndStandStillTimed(int moveState, const CVector& targetPoint, float fRadius, float fMoveStateRadius, int time);
     ~CTaskComplexGoToPointAndStandStillTimed();
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     void StopTimer(const CEvent* event) override;
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override;
     CTask* CreateFirstSubTask(CPed* ped) override;
@@ -23,7 +23,7 @@ private:
     static void InjectHooks();
 
     CTaskComplexGoToPointAndStandStillTimed* Constructor(int moveState, const CVector& targetPoint, float fRadius, float fMoveStateRadius, int time);
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
     void StopTimer_Reversed(const CEvent* event);
     bool MakeAbortable_Reversed(CPed* ped, eAbortPriority priority, const CEvent* event);
     CTask* CreateFirstSubTask_Reversed(CPed* ped);

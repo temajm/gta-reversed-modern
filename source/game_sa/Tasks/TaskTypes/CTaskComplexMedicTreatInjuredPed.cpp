@@ -120,7 +120,7 @@ void CTaskComplexMedicTreatInjuredPed::FindAccidentPosition(CPed* ped, CPed* tar
 }
 
 // 0x659AF0
-CTask* CTaskComplexMedicTreatInjuredPed::Clone()
+CTask* CTaskComplexMedicTreatInjuredPed::Clone() const
 {
     return Clone_Reversed();
 }
@@ -143,7 +143,7 @@ CTask* CTaskComplexMedicTreatInjuredPed::ControlSubTask(CPed* ped)
     return ControlSubTask_Reversed(ped);
 }
 
-CTask* CTaskComplexMedicTreatInjuredPed::Clone_Reversed()
+CTask* CTaskComplexMedicTreatInjuredPed::Clone_Reversed() const
 {
     return new CTaskComplexMedicTreatInjuredPed(m_pVehicle, m_pPartnerMedic, m_bIsDriver);
 }

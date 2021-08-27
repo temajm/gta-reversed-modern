@@ -3,11 +3,11 @@
 CTaskSimpleCarSetPedInAsPassenger::CTaskSimpleCarSetPedInAsPassenger(CVehicle* pTargetVehicle, int nTargetDoor, CTaskUtilityLineUpPedWithCar* pUtility)
 {
     m_iTargetDoor = nTargetDoor;
-    m_bIsFinished = 0;
-    m_pAnim = 0;
+    m_bIsFinished = false;
+    m_pAnim = nullptr;
     m_pTargetVehicle = pTargetVehicle;
     m_pUtility = pUtility;
-    m_bWarpingInToCar = 0;
+    m_bWarpingInToCar = false;
     m_nDoorFlagsToClear = 0;
     m_nNumGettingInToClear = 0;
     if (pTargetVehicle)
@@ -20,9 +20,9 @@ CTaskSimpleCarSetPedInAsPassenger::~CTaskSimpleCarSetPedInAsPassenger()
         m_pTargetVehicle->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_pTargetVehicle));
 }
 
-CTask* CTaskSimpleCarSetPedInAsPassenger::Clone()
+CTask* CTaskSimpleCarSetPedInAsPassenger::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x649D90, CTask*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x649D90, CTask*>((CTask*)this);
 }
 
 bool CTaskSimpleCarSetPedInAsPassenger::ProcessPed(CPed* ped)

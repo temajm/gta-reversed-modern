@@ -43,7 +43,7 @@ public:
     CTaskSimpleGangDriveBy(CEntity *target, const CVector *targetPos, float abortRange, int8_t frequencyPercentage, int8_t drivebyStyle, bool seatRHS);
     ~CTaskSimpleGangDriveBy();
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_SIMPLE_GANG_DRIVEBY; }
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override;
     bool ProcessPed(CPed* ped) override;

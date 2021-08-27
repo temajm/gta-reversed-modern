@@ -1,7 +1,6 @@
 #include "StdInc.h"
 
-CTaskSimpleGangDriveBy::CTaskSimpleGangDriveBy(CEntity* target, const CVector* targetPos, float abortRange,
-    std::int8_t frequencyPercentage, std::int8_t drivebyStyle, bool seatRHS)
+CTaskSimpleGangDriveBy::CTaskSimpleGangDriveBy(CEntity* target, const CVector* targetPos, float abortRange, int8_t frequencyPercentage, int8_t drivebyStyle, bool seatRHS)
 {
     m_bSeatRHS = seatRHS;
     m_nDrivebyStyle = drivebyStyle;
@@ -41,9 +40,9 @@ CTaskSimpleGangDriveBy::~CTaskSimpleGangDriveBy()
         m_pTargetEntity->CleanUpOldReference(&m_pTargetEntity);
 }
 
-CTask* CTaskSimpleGangDriveBy::Clone()
+CTask* CTaskSimpleGangDriveBy::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x6236D0, CTask*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x6236D0, CTask*>((CTask*)this);
 }
 
 bool CTaskSimpleGangDriveBy::MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event)

@@ -54,7 +54,7 @@ VALIDATE_SIZE(CNearbyFireScanner, 0xC);
 
 class CEventScanner {
 public:
-    std::uint32_t m_nNextScanTime;
+    uint32_t m_nNextScanTime;
     CVehiclePotentialCollisionScanner m_vehiclePotentialCollisionScanner;
     CObjectPotentialCollisionScanner m_objectPotentialCollisionScanner;
     CAttractorScanner m_attractorScanner;

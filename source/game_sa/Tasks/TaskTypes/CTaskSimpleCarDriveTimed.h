@@ -16,7 +16,7 @@ public:
     ~CTaskSimpleCarDriveTimed() override;
 
     bool ProcessPed(class CPed* ped) override;
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_SIMPLE_CAR_DRIVE_TIMED; }
 };
 

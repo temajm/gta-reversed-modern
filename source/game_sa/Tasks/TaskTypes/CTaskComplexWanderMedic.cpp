@@ -11,8 +11,8 @@ CTaskComplexWanderMedic::CTaskComplexWanderMedic(int MoveState, unsigned char Di
     Constructor(MoveState, Dir, bWanderSensibly);
 }
 
-CTask* CTaskComplexWanderMedic::Clone()
+CTask* CTaskComplexWanderMedic::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x6587A0, CTaskComplexWanderMedic*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x6587A0, CTaskComplexWanderMedic*>((CTaskComplexWanderMedic*)this);
 }
 

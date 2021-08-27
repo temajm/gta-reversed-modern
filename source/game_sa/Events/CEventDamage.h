@@ -34,8 +34,8 @@ public:
     CPedDamageResponse m_damageResponse;
 
 public:
-    CEventDamage(CEventDamage* pCopyFrom);
-    CEventDamage(CEntity* source, unsigned int startTime, eWeaponType weaponType, ePedPieceTypes pieceHit, unsigned char direction, bool a7, bool bPedInVehicle);
+    CEventDamage(const CEventDamage& other);
+    CEventDamage(CEntity* source, uint32_t startTime, eWeaponType weaponType, ePedPieceTypes pieceHit, uint8_t direction, bool a7, bool bPedInVehicle);
     ~CEventDamage();
 
     eEventType GetEventType() const override;
@@ -50,9 +50,9 @@ public:
     float GetLocalSoundLevel() override;
     bool DoInformVehicleOccupants(CPed* ped) override;
     bool CanBeInterruptedBySameEvent() override;
-    CEventEditableResponse* CloneEditable() override;
+    CEventEditableResponse* CloneEditable() const override;
 
-    void From(CEventDamage* pCopyFrom);
+    void From(const CEventDamage& other);
     void ProcessDamage(CPed* ped);
     void ComputeBodyPartToRemove(int* pBoneFrameId);
     void ComputeDeathAnim(CPed* ped, bool bMakeActiveTaskAbortable);
@@ -62,8 +62,8 @@ private:
     friend void InjectHooksMain();
     static void InjectHooks();
 
-    CEventDamage* Constructor(CEventDamage* pCopyFrom);
-    CEventDamage* Constructor(CEntity * source, unsigned int startTime, eWeaponType weaponType, ePedPieceTypes pieceHit, unsigned char direction, bool a7, bool bPedInVehicle);
+    CEventDamage* Constructor(const CEventDamage& other);
+    CEventDamage* Constructor(CEntity* source, uint32_t startTime, eWeaponType weaponType, ePedPieceTypes pieceHit, uint8_t direction, bool a7, bool bPedInVehicle);
 
     eEventType GetEventType_Reversed() const { return EVENT_DAMAGE; }
     int32_t GetEventPriority_Reversed() const { return 65; }
@@ -77,7 +77,7 @@ private:
     float GetLocalSoundLevel_Reversed() { return 55.0f; }
     bool DoInformVehicleOccupants_Reversed(CPed* ped);
     bool CanBeInterruptedBySameEvent_Reversed() { return true; };
-    CEventEditableResponse* CloneEditable_Reversed();
+    CEventEditableResponse* CloneEditable_Reversed() const;
 };
 
 VALIDATE_SIZE(CEventDamage, 0x44);

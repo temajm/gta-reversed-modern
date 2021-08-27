@@ -11,7 +11,7 @@ public:
     int32_t GetEventPriority() const override { return 68; }
     int GetLifeTime() override { return 0; }
     bool AffectsPed(CPed* ped) override { return ped->IsAlive(); };
-    CEventEditableResponse* CloneEditable() override { return new CEventHealthLow(); }
+    CEventEditableResponse* CloneEditable() const override { return new CEventHealthLow(); }
 };
 
 class CEventHealthReallyLow : public CEventEditableResponse
@@ -24,7 +24,7 @@ public:
     int32_t GetEventPriority() const override { return 69; }
     int GetLifeTime() override { return 0; }
     bool AffectsPed(CPed* ped) override { return ped->IsAlive(); };
-    CEventEditableResponse* CloneEditable() override { return new CEventHealthReallyLow(); }
+    CEventEditableResponse* CloneEditable() const override { return new CEventHealthReallyLow(); }
 };
 
 class CEventHighAngerAtPlayer : public CEventEditableResponse
@@ -37,5 +37,5 @@ public:
     int32_t GetEventPriority() const override { return 34; }
     int GetLifeTime() override { return 0; }
     bool AffectsPed(CPed* ped) override { return ped->IsAlive(); };
-    CEventEditableResponse* CloneEditable() override { return new CEventHighAngerAtPlayer(); }
+    CEventEditableResponse* CloneEditable() const override { return new CEventHighAngerAtPlayer(); }
 };

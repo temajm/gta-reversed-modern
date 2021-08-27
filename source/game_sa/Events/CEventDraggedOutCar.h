@@ -5,22 +5,17 @@
 
 class CVehicle;
 
-class CEventDraggedOutCar : public CEventEditableResponse
-{
+class CEventDraggedOutCar : public CEventEditableResponse {
 public:
     CPed* m_carjacker;
     CVehicle* m_vehicle;
     bool m_IsDriverSeat;
-private:
-    char padding[3];
-public:
+    char _pad[3];
 
-    static void InjectHooks();
+public:
 
     CEventDraggedOutCar(CVehicle* vehicle, CPed* carjacker, bool IsDriverSeat);
     ~CEventDraggedOutCar();
-private:
-    CEventDraggedOutCar* Constructor(CVehicle* vehicle, CPed* carjacker, bool IsDriverSeat);
 public:
     eEventType GetEventType() const override { return EVENT_DRAGGED_OUT_CAR; }
     int32_t GetEventPriority() const override { return 40; }
@@ -29,9 +24,15 @@ public:
     bool AffectsPedGroup(CPedGroup* pedGroup) override { return FindPlayerPed(-1) == pedGroup->m_groupMembership.GetLeader(); }
     CEntity* GetSourceEntity() const override { return m_carjacker; }
     float GetLocalSoundLevel() override { return 100.0f; }
-    CEventEditableResponse* CloneEditable() override;
+    CEventEditableResponse* CloneEditable() const override;
 
-    CEventEditableResponse* CloneEditable_Reversed();
+private:
+    friend void InjectHooksMain();
+    static void InjectHooks();
+
+    CEventDraggedOutCar* Constructor(CVehicle* vehicle, CPed* carjacker, bool IsDriverSeat);
+
+    CEventEditableResponse* CloneEditable_Reversed() const;
 };
 
 VALIDATE_SIZE(CEventDraggedOutCar, 0x20);

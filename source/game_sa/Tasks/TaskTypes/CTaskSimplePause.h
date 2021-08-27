@@ -12,7 +12,7 @@ public:
     CTaskSimplePause(int time);
     ~CTaskSimplePause();
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override {
         return TASK_SIMPLE_PAUSE;
     };

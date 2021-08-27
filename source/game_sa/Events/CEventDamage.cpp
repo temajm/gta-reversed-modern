@@ -1,7 +1,7 @@
 #include "StdInc.h"
 
 void CEventDamage::InjectHooks() {
-    HookInstall(0x4B33B0, (CEventDamage*(CEventDamage::*)(CEventDamage*)) & CEventDamage::Constructor);
+    HookInstall(0x4B33B0, (CEventDamage*(CEventDamage::*)(const CEventDamage&)) & CEventDamage::Constructor);
     HookInstall(0x4AD830, (CEventDamage * (CEventDamage::*)(CEntity*, unsigned int, eWeaponType, ePedPieceTypes, unsigned char, bool, bool)) & CEventDamage::Constructor);
     HookInstall(0x4AD910, &CEventDamage::GetEventType_Reversed);
     HookInstall(0x4AD950, &CEventDamage::GetEventPriority_Reversed);
@@ -23,17 +23,17 @@ void CEventDamage::InjectHooks() {
     HookInstall(0x4B3FC0, &CEventDamage::ComputeDamageAnim);
 }
 
-CEventDamage::CEventDamage(CEventDamage* pCopyFrom) {
+CEventDamage::CEventDamage(const CEventDamage& other) {
     m_damageResponse.m_fDamageHealth = 0.0f;
     m_damageResponse.m_fDamageArmor = 0.0f;
     m_damageResponse.m_bHealthZero = false;
     m_damageResponse.m_bForceDeath = false;
     m_damageResponse.m_bDamageCalculated = false;
     m_damageResponse.m_bCheckIfAffectsPed = false;
-    From(pCopyFrom);
+    From(other);
 }
 
-CEventDamage::CEventDamage(CEntity* source, unsigned int startTime, eWeaponType weaponType, ePedPieceTypes pieceHit, unsigned char direction, bool a7, bool bPedInVehicle) {
+CEventDamage::CEventDamage(CEntity* source, uint32_t startTime, eWeaponType weaponType, ePedPieceTypes pieceHit, uint8_t direction, bool a7, bool bPedInVehicle) {
     m_pSourceEntity = source;
     m_nStartTime = startTime;
     m_weaponType = weaponType;
@@ -54,7 +54,7 @@ CEventDamage::CEventDamage(CEntity* source, unsigned int startTime, eWeaponType 
     m_damageResponse.m_bCheckIfAffectsPed = false;
     if (m_pSourceEntity)
         m_pSourceEntity->RegisterReference(&m_pSourceEntity);
-    m_bPedInVehicle = true; // if we're setting this to true, then why do we have bPedInVehicle paramter in this constructor? bug?
+    m_bPedInVehicle = true; // if we're setting this to true, then why do we have bPedInVehicle parameter in this constructor? bug?
 }
 
 CEventDamage::~CEventDamage() {
@@ -62,22 +62,16 @@ CEventDamage::~CEventDamage() {
         m_pSourceEntity->CleanUpOldReference(&m_pSourceEntity);
 }
 
-CEventDamage* CEventDamage::Constructor(CEventDamage* pCopyFrom) {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<CEventDamage*, 0x4B33B0, CEventDamage*, CEventDamage*>(this, pCopyFrom);
-#else
-    this->CEventDamage::CEventDamage(pCopyFrom);
+// 0x4B33B0
+CEventDamage* CEventDamage::Constructor(const CEventDamage& other) {
+    this->CEventDamage::CEventDamage(other);
     return this;
-#endif
 }
 
-CEventDamage* CEventDamage::Constructor(CEntity* source, unsigned int startTime, eWeaponType weaponType, ePedPieceTypes pieceHit, unsigned char direction, bool a7, bool bPedInVehicle) {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<CEventDamage*, 0x4AD830, CEventDamage*, CEntity *, unsigned int, eWeaponType, ePedPieceTypes, unsigned char, bool, bool>(this, source, startTime, weaponType, pieceHit, direction, a7, bPedInVehicle);
-#else
+// 0x4AD830
+CEventDamage* CEventDamage::Constructor(CEntity* source, uint32_t startTime, eWeaponType weaponType, ePedPieceTypes pieceHit, uint8_t direction, bool a7, bool bPedInVehicle) {
     this->CEventDamage::CEventDamage(source, startTime, weaponType, pieceHit, direction, a7, bPedInVehicle);
     return this;
-#endif
 }
 
 // 0x4AD910
@@ -168,22 +162,22 @@ bool CEventDamage::CanBeInterruptedBySameEvent() {
 #endif
 }
 
-CEventEditableResponse* CEventDamage::CloneEditable() {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return ((CEventEditableResponse * (__thiscall*)(CEvent*))0x4B5D40)(this);
-#else
+// 0x4B5D40
+CEventEditableResponse* CEventDamage::CloneEditable() const {
     return CEventDamage::CloneEditable_Reversed();
-#endif
 }
 
 bool CEventDamage::AffectsPed_Reversed(CPed* ped) {
     CPed* pPedSourceEntity = static_cast<CPed*>(GetSourceEntity());
     if (m_damageResponse.m_bDamageCalculated && !m_damageResponse.m_bCheckIfAffectsPed)
         return true;
+
     if (!ped->IsAlive() || ped == FindPlayerPed(-1) && !FindPlayerPed(-1)->m_pPlayerData->m_bCanBeDamaged)
         return false;
+
     if (m_weaponType == WEAPON_DROWNING && !ped->bDrownsInWater)
         return false;
+
     if (ped == FindPlayerPed(-1)) {
         if (m_pSourceEntity) {
             if (m_pSourceEntity->m_nType == ENTITY_TYPE_PED && pPedSourceEntity->m_nPedType == PED_TYPE_GANG2 && m_weaponType >= WEAPON_GRENADE) {
@@ -245,7 +239,7 @@ bool CEventDamage::AffectsPed_Reversed(CPed* ped) {
             return false;
         }
     }
-    bool bAffectsPed = ped->CanPhysicalBeDamaged(m_weaponType, 0);
+    bool bAffectsPed = ped->CanPhysicalBeDamaged(m_weaponType, nullptr);
     if (m_weaponType == WEAPON_FALL
         && (ped->physicalFlags.bCollisionProof || ped->m_pAttachedTo || ped->m_fHealth > 0.0 && ped->m_pIntelligence->GetTaskJetPack())) {
         bAffectsPed = false;
@@ -352,45 +346,41 @@ bool CEventDamage::DoInformVehicleOccupants_Reversed(CPed* ped) {
     return false;
 }
 
-CEventEditableResponse* CEventDamage::CloneEditable_Reversed() {
-    CEventDamage* pClonedEvent = new CEventDamage(this);
+CEventEditableResponse* CEventDamage::CloneEditable_Reversed() const{
+    CEventDamage* pClonedEvent = new CEventDamage(*this);
     pClonedEvent->m_nAnimID = m_nAnimID;
     pClonedEvent->m_b05 = m_b05;
     return pClonedEvent;
 }
 
 // 0x4AD9C0
-void CEventDamage::From(CEventDamage* pCopyFrom) {
-    m_pSourceEntity = pCopyFrom->m_pSourceEntity;
-    if (pCopyFrom->m_pSourceEntity)
-        pCopyFrom->m_pSourceEntity->RegisterReference(&m_pSourceEntity);
-    m_nStartTime = pCopyFrom->m_nStartTime;
-    m_weaponType = pCopyFrom->m_weaponType;
-    m_pedPieceType = pCopyFrom->m_pedPieceType;
-    m_ucDirection = pCopyFrom->m_ucDirection;
-    m_damageResponse = pCopyFrom->m_damageResponse;
-    m_nAnimGroup = pCopyFrom->m_nAnimGroup;
-    m_nAnimID = pCopyFrom->m_nAnimID;
-    m_fAnimBlend = pCopyFrom->m_fAnimBlend;
-    m_fAnimSpeed = pCopyFrom->m_fAnimSpeed;
-    m_ucFlags = pCopyFrom->m_ucFlags;
+void CEventDamage::From(const CEventDamage& other) {
+    m_pSourceEntity = other.m_pSourceEntity;
+    if (other.m_pSourceEntity)
+        other.m_pSourceEntity->RegisterReference(&m_pSourceEntity);
+
+    m_nStartTime     = other.m_nStartTime;
+    m_weaponType     = other.m_weaponType;
+    m_pedPieceType   = other.m_pedPieceType;
+    m_ucDirection    = other.m_ucDirection;
+    m_damageResponse = other.m_damageResponse;
+    m_nAnimGroup     = other.m_nAnimGroup;
+    m_nAnimID        = other.m_nAnimID;
+    m_fAnimBlend     = other.m_fAnimBlend;
+    m_fAnimSpeed     = other.m_fAnimSpeed;
+    m_ucFlags        = other.m_ucFlags;
 }
 
+// 0x4B3A20
 void CEventDamage::ProcessDamage(CPed* ped) {
-#ifdef USE_DEFAULT_FUNCTIONS
-    plugin::CallMethod<0x4B3A20, CEventDamage*, CPed*>(this, ped);
-#else
     int boneFrameId = 0;
     CEventDamage::ComputeBodyPartToRemove(&boneFrameId);
     if (boneFrameId)
         ped->RemoveBodyPart(boneFrameId, m_ucDirection);
-#endif
 }
 
+// 0x4ADC10
 void CEventDamage::ComputeBodyPartToRemove(int* pBoneFrameId) {
-#ifdef USE_DEFAULT_FUNCTIONS
-    plugin::CallMethod<0x4ADC10, CEventDamage*, int*>(this, pBoneFrameId);
-#else
     *pBoneFrameId = 0;
     switch (m_weaponType)
     {
@@ -479,13 +469,10 @@ void CEventDamage::ComputeBodyPartToRemove(int* pBoneFrameId) {
         }
         break;
     }
-#endif
 }
 
+// 0x4B3A60
 void CEventDamage::ComputeDeathAnim(CPed* ped, bool bMakeActiveTaskAbortable) {
-#ifdef USE_DEFAULT_FUNCTIONS
-    plugin::CallMethod<0x4B3A60, CEventDamage*, CPed*, bool>(this, ped, bMakeActiveTaskAbortable);
-#else
     m_nAnimGroup = ANIM_GROUP_DEFAULT;
     m_nAnimID = ANIM_ID_KO_SHOT_FRONT_0;
     m_fAnimBlend = 4.0f;
@@ -703,7 +690,6 @@ void CEventDamage::ComputeDeathAnim(CPed* ped, bool bMakeActiveTaskAbortable) {
             }
         }
     }
-#endif
 }
 
 void CEventDamage::ComputeDamageAnim(CPed* ped, bool bMakeActiveTaskAbortable) {

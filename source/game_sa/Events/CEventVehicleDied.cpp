@@ -30,7 +30,7 @@ CEventVehicleDied* CEventVehicleDied::Constructor(CVehicle* vehicle)
 #endif
 }
 
-CEvent* CEventVehicleDied::Clone()
+CEvent* CEventVehicleDied::Clone() const
 {
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallMethodAndReturn<CEvent*, 0x4B76D0, CEvent*>(this);
@@ -48,7 +48,7 @@ bool CEventVehicleDied::AffectsPed(CPed* ped)
 #endif
 }
 
-CEvent* CEventVehicleDied::Clone_Reversed()
+CEvent* CEventVehicleDied::Clone_Reversed() const
 {
     return new CEventVehicleDied(m_vehicle);
 }

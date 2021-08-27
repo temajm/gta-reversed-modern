@@ -12,12 +12,12 @@ public:
 private:
     CTaskSimpleGoToPointFine* Constructor(float fBlend, CVector targetPoint, float fRadius, int unused);
 public:
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_SIMPLE_GO_TO_POINT_FINE; };
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override;
     bool ProcessPed(CPed* ped) override;
     
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
     bool MakeAbortable_Reversed(CPed* ped, eAbortPriority priority, const CEvent* event);
     bool ProcessPed_Reversed(CPed* ped);
 

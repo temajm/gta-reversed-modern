@@ -74,7 +74,7 @@ class CTaskSimpleJetPack : public CTaskSimple {
 
     bool MakeAbortable(class CPed* ped, eAbortPriority priority, const CEvent* event) override;
     eTaskType GetId() override { return TASK_SIMPLE_JETPACK; }
-    CTask* Clone() override;
+    CTask* Clone() const override;
     bool ProcessPed(CPed* ped) override;
 
     void Process();
@@ -87,7 +87,7 @@ class CTaskSimpleJetPack : public CTaskSimple {
 
   private:
     bool MakeAbortable_Reversed(CPed* ped, eAbortPriority priority, const CEvent* event);
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
 };
 
 extern CVector& JETPACK_POS_OFFSET; // { 0.1f, 0.08f, 0.0f }

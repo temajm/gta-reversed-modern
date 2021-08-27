@@ -2,28 +2,29 @@
 
 class CVehicle;
 
-class CEventVehicleDied : public CEvent
-{
+class CEventVehicleDied : public CEvent {
 public:
     CVehicle* m_vehicle;
-    bool m_IsOccupantLeavingCar;
-private:
-    char padding[3];
-public:
-    static void InjectHooks();
+    bool      m_IsOccupantLeavingCar;
+    char      _pad[3];
 
+public:
     CEventVehicleDied (CVehicle* vehicle);
     ~CEventVehicleDied ();
-private:
-    CEventVehicleDied * Constructor(CVehicle* vehicle);
-public:
+
     eEventType GetEventType() const override { return EVENT_VEHICLE_DIED; }
     int32_t GetEventPriority() const override { return 72; }
     int GetLifeTime() override { return 0; }
-    CEvent* Clone() override;
+    CEvent* Clone() const override;
     bool AffectsPed(CPed* ped) override;
 
-    CEvent* Clone_Reversed();
+private:
+    friend void InjectHooksMain();
+    static void InjectHooks();
+
+    CEventVehicleDied * Constructor(CVehicle* vehicle);
+
+    CEvent* Clone_Reversed() const;
     bool AffectsPed_Reversed(CPed* ped);
 };
 

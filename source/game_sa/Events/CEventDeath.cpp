@@ -33,7 +33,7 @@ CEventDeath* CEventDeath::Constructor(bool bDrowning)
 #endif
 }
 
-CEvent* CEventDeath::Clone()
+CEvent* CEventDeath::Clone() const
 {
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallMethodAndReturn<CEvent*, 0x4B6E30, CEvent*>(this);
@@ -43,7 +43,7 @@ CEvent* CEventDeath::Clone()
 }
 
 
-CEvent* CEventDeath::Clone_Reversed()
+CEvent* CEventDeath::Clone_Reversed() const
 {
     return new CEventDeath(m_bDrowning, m_deathTimeInMs);
 }

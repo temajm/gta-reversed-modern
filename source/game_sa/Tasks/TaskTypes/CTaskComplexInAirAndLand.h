@@ -17,7 +17,7 @@ public:
 
     static void InjectHooks();
 
-    CTask* Clone() override { return new CTaskComplexInAirAndLand(m_bUsingJumpGlide, m_bUsingFallGlide); }
+    CTask* Clone() const override { return new CTaskComplexInAirAndLand(m_bUsingJumpGlide, m_bUsingFallGlide); }
     eTaskType GetId() override { return TASK_COMPLEX_IN_AIR_AND_LAND; }
     CTask* CreateFirstSubTask(CPed* ped) override;
     CTask* CreateNextSubTask(CPed* ped) override;

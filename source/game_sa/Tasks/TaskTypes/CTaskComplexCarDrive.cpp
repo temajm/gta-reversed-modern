@@ -10,9 +10,9 @@ CTaskComplexCarDrive::~CTaskComplexCarDrive()
     plugin::CallMethod<0x63CA40, CTaskComplexCarDrive*>(this);
 }
 
-CTask* CTaskComplexCarDrive::Clone()
+CTask* CTaskComplexCarDrive::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x63DC90, CTaskComplexCarDrive*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x63DC90, CTaskComplexCarDrive*>((CTaskComplexCarDrive*)this);
 }
 
 CTask* CTaskComplexCarDrive::CreateNextSubTask(CPed* ped)

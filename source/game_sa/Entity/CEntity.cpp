@@ -1808,7 +1808,7 @@ void CEntity::PruneReferences()
     }
 }
 
-// Converted from thiscall void CEntity::RegisterReference(CEntity** entity) 0x571B70
+// 0x571B70
 void CEntity::RegisterReference(CEntity** entity)
 {
     if (IsBuilding() && !m_bIsTempBuilding && !m_bIsProcObject && !m_nIplIndex)

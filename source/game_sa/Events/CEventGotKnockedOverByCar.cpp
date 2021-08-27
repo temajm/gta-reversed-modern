@@ -39,7 +39,7 @@ bool CEventGotKnockedOverByCar::AffectsPed(CPed* ped)
 #endif
 }
 
-CEventEditableResponse* CEventGotKnockedOverByCar::CloneEditable()
+CEventEditableResponse* CEventGotKnockedOverByCar::CloneEditable() const
 {
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallMethodAndReturn<CEventEditableResponse*, 0x4B7960, CEvent*>(this);
@@ -55,7 +55,7 @@ bool CEventGotKnockedOverByCar::AffectsPed_Reversed(CPed* ped)
     return false;
 }
 
-CEventEditableResponse* CEventGotKnockedOverByCar::CloneEditable_Reversed()
+CEventEditableResponse* CEventGotKnockedOverByCar::CloneEditable_Reversed() const
 {
     return new CEventGotKnockedOverByCar(m_vehicle);
 }

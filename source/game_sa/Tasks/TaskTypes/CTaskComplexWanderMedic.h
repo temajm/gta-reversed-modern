@@ -8,5 +8,5 @@ public:
     CTaskComplexWanderMedic(int MoveState, unsigned char Dir, bool bWanderSensibly);
     int GetWanderType() override { return 2; }
     void ScanForStuff(CPed* ped) override {}
-    CTask* Clone() override;
+    CTask* Clone() const override;
 };

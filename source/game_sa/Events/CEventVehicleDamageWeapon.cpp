@@ -28,7 +28,7 @@ CEventVehicleDamageWeapon* CEventVehicleDamageWeapon::Constructor(CVehicle* vehi
 #endif
 }
 
-CEventEditableResponse* CEventVehicleDamageWeapon::CloneEditable()
+CEventEditableResponse* CEventVehicleDamageWeapon::CloneEditable() const
 {
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallMethodAndReturn<CEventEditableResponse*, 0x61C330, CEvent*>(this);
@@ -37,7 +37,7 @@ CEventEditableResponse* CEventVehicleDamageWeapon::CloneEditable()
 #endif
 }
 
-CEventEditableResponse* CEventVehicleDamageWeapon::CloneEditable_Reversed()
+CEventEditableResponse* CEventVehicleDamageWeapon::CloneEditable_Reversed() const
 {
     return new CEventVehicleDamageWeapon(m_vehicle, m_attacker, m_weaponType);
 }

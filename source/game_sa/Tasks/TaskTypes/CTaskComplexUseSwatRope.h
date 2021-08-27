@@ -19,14 +19,14 @@ public:
 
     static void InjectHooks();
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_COMPLEX_USE_SWAT_ROPE; }
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override;
     CTask* CreateNextSubTask(CPed* ped) override;
     CTask* CreateFirstSubTask(CPed* ped) override;
     CTask* ControlSubTask(CPed* ped) override;
 
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
     bool MakeAbortable_Reversed(CPed* ped, eAbortPriority priority, const CEvent* event);
     CTask* CreateNextSubTask_Reversed(CPed* ped);
     CTask* CreateFirstSubTask_Reversed(CPed* ped);

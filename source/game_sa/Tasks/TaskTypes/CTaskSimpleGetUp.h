@@ -13,7 +13,7 @@ public:
     CTaskSimpleGetUp();
     ~CTaskSimpleGetUp() override;
 
-    CTask* Clone() override { return new CTaskSimpleGetUp(); }
+    CTask* Clone() const override { return new CTaskSimpleGetUp(); }
     eTaskType GetId() override { return TASK_SIMPLE_GET_UP; }
     bool ProcessPed(class CPed* ped) override;
     bool MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event) override;

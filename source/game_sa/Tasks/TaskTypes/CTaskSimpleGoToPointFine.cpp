@@ -31,13 +31,10 @@ CTaskSimpleGoToPointFine* CTaskSimpleGoToPointFine::Constructor(float fBlend, CV
 #endif
 }
 
-CTask* CTaskSimpleGoToPointFine::Clone()
+// 0x662040
+CTask* CTaskSimpleGoToPointFine::Clone() const
 {
-#ifdef USE_DEFAULT_FUNCTIONS 
-    return plugin::CallMethodAndReturn<CTask*, 0x662040, CTask*>(this);
-#else
     return CTaskSimpleGoToPointFine::Clone_Reversed();
-#endif
 }
 
 bool CTaskSimpleGoToPointFine::MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event)
@@ -58,7 +55,7 @@ bool CTaskSimpleGoToPointFine::ProcessPed(CPed* ped)
 #endif
 }
 
-CTask* CTaskSimpleGoToPointFine::Clone_Reversed()
+CTask* CTaskSimpleGoToPointFine::Clone_Reversed() const
 {
     return new CTaskSimpleGoToPointFine(m_fBlend, m_vecTargetPoint, m_fRadius, 0);
 }

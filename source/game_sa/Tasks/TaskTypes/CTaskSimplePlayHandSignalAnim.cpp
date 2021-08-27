@@ -11,8 +11,7 @@ void CTaskSimplePlayHandSignalAnim::InjectHooks()
     ReversibleHooks::Install("CTaskSimplePlayHandSignalAnim", "StartAnim", 0x61AF60, &CTaskSimplePlayHandSignalAnim::StartAnim);
 }
 
-CTaskSimplePlayHandSignalAnim::CTaskSimplePlayHandSignalAnim(int animationId, float fBlendFactor, bool bFatHands,
-                                                             bool bHoldLastFrame) : CTaskSimpleAnim(bHoldLastFrame)
+CTaskSimplePlayHandSignalAnim::CTaskSimplePlayHandSignalAnim(int animationId, float fBlendFactor, bool bFatHands, bool bHoldLastFrame) : CTaskSimpleAnim(bHoldLastFrame)
 {
     m_nAnimationBlockIndex = animationId;
     m_pLeftHandObject = nullptr;
@@ -38,11 +37,11 @@ CTaskSimplePlayHandSignalAnim::~CTaskSimplePlayHandSignalAnim()
     }
 }
 
-CTask* CTaskSimplePlayHandSignalAnim::Clone()
+CTask* CTaskSimplePlayHandSignalAnim::Clone() const
 {
     return CTaskSimplePlayHandSignalAnim::Clone_Reversed();
 }
-CTask* CTaskSimplePlayHandSignalAnim::Clone_Reversed()
+CTask* CTaskSimplePlayHandSignalAnim::Clone_Reversed() const
 {
     return new CTaskSimplePlayHandSignalAnim(m_nAnimationBlockIndex, m_fBlendFactor, m_bUseFatHands, m_bHoldLastFrame);
 }

@@ -24,12 +24,12 @@ public:
     void ReportCriminalEvent(CPed* ped) override;
     CEntity* GetSourceEntity() const override { return m_ped; }
     bool TakesPriorityOver(const CEvent& refEvent) override;
-    CEventEditableResponse* CloneEditable() override;
+    CEventEditableResponse* CloneEditable() const override;
 
     bool AffectsPed_Reversed(CPed* ped);
     void ReportCriminalEvent_Reversed(CPed* ped);
     bool TakesPriorityOver_Reversed(const CEvent& refEvent);
-    CEventEditableResponse* CloneEditable_Reversed();
+    CEventEditableResponse* CloneEditable_Reversed() const;
 };
 
 VALIDATE_SIZE(CEventGunAimedAt, 0x18);

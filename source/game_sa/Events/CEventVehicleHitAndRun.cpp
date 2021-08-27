@@ -33,7 +33,7 @@ CEventVehicleHitAndRun* CEventVehicleHitAndRun::Constructor(CPed* victim, CVehic
 #endif
 }
 
-CEvent* CEventVehicleHitAndRun::Clone()
+CEvent* CEventVehicleHitAndRun::Clone() const
 {
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallMethodAndReturn<CEvent*, 0x4B7100, CEvent*>(this);
@@ -51,7 +51,7 @@ void CEventVehicleHitAndRun::ReportCriminalEvent(CPed* ped)
 #endif
 }
 
-CEvent* CEventVehicleHitAndRun::Clone_Reversed()
+CEvent* CEventVehicleHitAndRun::Clone_Reversed() const
 {
     return new CEventVehicleHitAndRun(m_victim, m_vehicle);
 }

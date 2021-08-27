@@ -43,7 +43,7 @@ CTaskSimpleJump::~CTaskSimpleJump()
 }
 
 // 0x67C510
-CTask* CTaskSimpleJump::Clone()
+CTask* CTaskSimpleJump::Clone() const
 {
     return Clone_Reversed();
 }
@@ -60,7 +60,7 @@ bool CTaskSimpleJump::ProcessPed(CPed* ped)
     return ProcessPed_Reversed(ped);
 }
 
-CTask* CTaskSimpleJump::Clone_Reversed()
+CTask* CTaskSimpleJump::Clone_Reversed() const
 {
     auto newTask = new CTaskSimpleJump(m_bCanClimb);
     newTask->m_bHighJump = this->m_bHighJump;

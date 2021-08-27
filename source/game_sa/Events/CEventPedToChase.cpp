@@ -29,7 +29,7 @@ CEventPedToChase* CEventPedToChase::Constructor(CPed* ped)
 #endif
 }
 
-CEvent* CEventPedToChase::Clone()
+CEvent* CEventPedToChase::Clone() const
 {
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallMethodAndReturn<CEvent*, 0x4B7360, CEvent*>(this);
@@ -38,7 +38,7 @@ CEvent* CEventPedToChase::Clone()
 #endif
 }
 
-CEvent* CEventPedToChase::Clone_Reversed()
+CEvent* CEventPedToChase::Clone_Reversed() const
 {
     return new CEventPedToChase(m_ped);
 }

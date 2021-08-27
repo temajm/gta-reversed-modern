@@ -37,7 +37,7 @@ CTask* CScriptedBrainTaskStore::SetTask(CPed* ped, CTask* task)
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallAndReturn<CTask*, 0x635720, CPed*, CTask*>(ped, task);
 #else
-    std::int32_t freeEntryIndex = -1;
+    int32_t freeEntryIndex = -1;
     for (std::int32_t i = 0; i < TOTAL_SCRIPTED_BRAIN_TASK_ENTRIES; i++) {
         CScriptedBrainTaskEntry& entry = ms_entries[i];
         if (!entry.m_ped && freeEntryIndex == -1)

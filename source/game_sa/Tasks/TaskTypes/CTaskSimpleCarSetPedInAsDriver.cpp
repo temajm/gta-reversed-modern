@@ -2,11 +2,11 @@
 
 CTaskSimpleCarSetPedInAsDriver::CTaskSimpleCarSetPedInAsDriver(CVehicle* pTargetVehicle, CTaskUtilityLineUpPedWithCar* pUtility)
 {
-    m_bIsFinished = 0;
-    m_pAnim = 0;
+    m_bIsFinished = false;
+    m_pAnim = nullptr;
     m_pTargetVehicle = pTargetVehicle;
     m_pUtility = pUtility;
-    m_bWarpingInToCar = 0;
+    m_bWarpingInToCar = false;
     m_nDoorFlagsToClear = 0;
     m_nNumGettingInToClear = 0;
     if (pTargetVehicle)
@@ -19,9 +19,9 @@ CTaskSimpleCarSetPedInAsDriver::~CTaskSimpleCarSetPedInAsDriver()
         m_pTargetVehicle->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_pTargetVehicle));
 }
 
-CTask* CTaskSimpleCarSetPedInAsDriver::Clone()
+CTask* CTaskSimpleCarSetPedInAsDriver::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x649E00, CTask*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x649E00, CTask*>((CTask*)this);
 }
 
 bool CTaskSimpleCarSetPedInAsDriver::ProcessPed(CPed* ped)

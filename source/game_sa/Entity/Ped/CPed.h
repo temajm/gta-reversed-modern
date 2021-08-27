@@ -59,8 +59,7 @@ enum ePedType : unsigned int {
     PED_TYPE_MISSION8
 };
 
-enum ePedNode
-{
+enum ePedNode : uint8_t {
     PED_NODE_UPPER_TORSO = 1,
     PED_NODE_HEAD,
     PED_NODE_LEFT_ARM,
@@ -520,18 +519,18 @@ public:
     void SetModelIndex(unsigned int modelIndex);
     bool IsInVehicleThatHasADriver();
 
-    inline unsigned char GetCreatedBy() { return m_nCreatedBy; }
-    inline bool IsCreatedBy(ePedCreatedBy v) { return v == m_nCreatedBy; }
-    inline CPedStuckChecker& GetStuckChecker() { return m_pIntelligence->m_pedStuckChecker; }
-    inline std::int32_t GetGroupId() { return m_pPlayerData->m_nPlayerGroup; }
-    inline CPedGroup& GetGroup() { return CPedGroups::GetGroup(m_pPlayerData->m_nPlayerGroup); }
-    inline CPedIntelligence* GetIntelligence() { return m_pIntelligence; }
-    inline CTaskManager& GetTaskManager() { return m_pIntelligence->m_TaskMgr; }
-    inline CEventGroup& GetEventGroup() { return m_pIntelligence->m_eventGroup; }
-    inline CEventHandler& GetEventHandler() { return m_pIntelligence->m_eventHandler; }
-    inline CEventHandlerHistory& GetEventHandlerHistory() { return m_pIntelligence->m_eventHandler.m_history; }
-    inline CWeapon& GetActiveWeapon() { return m_aWeapons[m_nActiveWeaponSlot]; }
-    inline CPlayerPed* AsPlayerPed() { return reinterpret_cast<CPlayerPed*>(this); }
+    unsigned char GetCreatedBy() { return m_nCreatedBy; }
+    bool IsCreatedBy(ePedCreatedBy v) { return v == m_nCreatedBy; }
+    CPedStuckChecker& GetStuckChecker() { return m_pIntelligence->m_pedStuckChecker; }
+    int32_t GetGroupId() { return m_pPlayerData->m_nPlayerGroup; }
+    CPedGroup& GetGroup() { return CPedGroups::GetGroup(m_pPlayerData->m_nPlayerGroup); }
+    CPedIntelligence* GetIntelligence() const { return m_pIntelligence; }
+    CTaskManager& GetTaskManager() const { return m_pIntelligence->m_TaskMgr; }
+    CEventGroup& GetEventGroup() { return m_pIntelligence->m_eventGroup; }
+    CEventHandler& GetEventHandler() { return m_pIntelligence->m_eventHandler; }
+    CEventHandlerHistory& GetEventHandlerHistory() { return m_pIntelligence->m_eventHandler.m_history; }
+    CWeapon& GetActiveWeapon() { return m_aWeapons[m_nActiveWeaponSlot]; }
+    CPlayerPed* AsPlayerPed() { return reinterpret_cast<CPlayerPed*>(this); }
 
     static void* operator new(unsigned int size);
     static void operator delete(void* data);

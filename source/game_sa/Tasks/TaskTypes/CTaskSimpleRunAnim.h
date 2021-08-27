@@ -30,11 +30,11 @@ public:
 
     static void InjectHooks();
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return static_cast<eTaskType>(m_nTaskType); }
     bool ProcessPed(CPed* ped) override;
 
-    CTask* Clone_Reversed();
+    CTask* Clone_Reversed() const;
     bool ProcessPed_Reversed(CPed* ped);
 
     void StartAnim(CPed* ped);

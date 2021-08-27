@@ -6,16 +6,13 @@ CTaskComplexEnterCarAsDriver::CTaskComplexEnterCarAsDriver(CVehicle* pTargetVehi
     // empty
 }
 
-CTask* CTaskComplexEnterCarAsDriver::Clone()
+// 0x643780
+CTask* CTaskComplexEnterCarAsDriver::Clone() const
 {
-#ifdef USE_DEFAULT_FUNCTIONS 
-    return plugin::CallMethodAndReturn<CTask*, 0x643780, CTask*>(this);
-#else
     return CTaskComplexEnterCarAsDriver::Clone_Reversed();
-#endif
 }
 
-CTask* CTaskComplexEnterCarAsDriver::Clone_Reversed()
+CTask* CTaskComplexEnterCarAsDriver::Clone_Reversed() const
 {
     auto pClonedTask = new CTaskComplexEnterCarAsDriver(m_pTargetVehicle);
     pClonedTask->m_nMoveState = m_nMoveState;

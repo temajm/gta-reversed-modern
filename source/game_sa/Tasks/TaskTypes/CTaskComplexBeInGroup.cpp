@@ -1,9 +1,9 @@
 #include "StdInc.h"
 
-CTaskComplexBeInGroup::CTaskComplexBeInGroup(std::int32_t groupId, bool isLeader)
+CTaskComplexBeInGroup::CTaskComplexBeInGroup(int32_t groupId, bool isLeader)
 {
     m_groupId = groupId;
-    m_ped = 0;
+    m_ped = nullptr;
     m_mainTask = nullptr;
     m_secondaryTask = nullptr;
     m_isLeader = isLeader;
@@ -11,9 +11,10 @@ CTaskComplexBeInGroup::CTaskComplexBeInGroup(std::int32_t groupId, bool isLeader
     m_secondaryTaskSlot = -1;
 }
 
-CTask* CTaskComplexBeInGroup::Clone()
+// 0x636BE0
+CTask* CTaskComplexBeInGroup::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x636BE0, CTask*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x636BE0, CTask*>((CTask*)this);
 }
 
 bool CTaskComplexBeInGroup::MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event)

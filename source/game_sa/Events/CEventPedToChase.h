@@ -17,10 +17,10 @@ public:
     eEventType GetEventType() const override { return EVENT_PED_TO_CHASE; }
     int32_t GetEventPriority() const override { return 1; }
     int GetLifeTime() override { return 0; }
-    CEvent* Clone() override;
+    CEvent* Clone() const override;
     bool AffectsPed(CPed* ped) override { return ped->IsAlive(); }
     
-    CEvent* Clone_Reversed();
+    CEvent* Clone_Reversed() const;
 };
 
 VALIDATE_SIZE(CEventPedToChase, 0x10);

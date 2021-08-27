@@ -15,9 +15,9 @@ bool CTaskSimpleCarDrive::ProcessPed(CPed* ped)
     return plugin::CallMethodAndReturn<bool, 0x644470, CTaskSimpleCarDrive*, CPed*>(this, ped);
 }
 
-CTask* CTaskSimpleCarDrive::Clone()
+CTask* CTaskSimpleCarDrive::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x63DC20, CTaskSimpleCarDrive*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x63DC20, CTaskSimpleCarDrive*>((CTaskSimpleCarDrive*)this);
 }
 
 bool CTaskSimpleCarDrive::MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event)

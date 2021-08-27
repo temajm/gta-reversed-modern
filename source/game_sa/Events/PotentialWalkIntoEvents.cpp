@@ -25,7 +25,7 @@ void CEventPotentialWalkIntoPed::InjectHooks()
     ReversibleHooks::Install("CEventPotentialWalkIntoPed", "TakesPriorityOver", 0x4AE950, &CEventPotentialWalkIntoPed::TakesPriorityOver_Reversed);
 }
 
-CEventPotentialWalkIntoVehicle::CEventPotentialWalkIntoVehicle(CVehicle* vehicle, std::int32_t moveState)
+CEventPotentialWalkIntoVehicle::CEventPotentialWalkIntoVehicle(CVehicle* vehicle, int32_t moveState)
 {
     m_vehicle = vehicle;
     m_moveState = moveState;
@@ -39,7 +39,7 @@ CEventPotentialWalkIntoVehicle::~CEventPotentialWalkIntoVehicle()
         m_vehicle->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_vehicle));
 }
 
-CEventPotentialWalkIntoVehicle* CEventPotentialWalkIntoVehicle::Constructor(CVehicle* vehicle, std::int32_t moveState)
+CEventPotentialWalkIntoVehicle* CEventPotentialWalkIntoVehicle::Constructor(CVehicle* vehicle, int32_t moveState)
 {
     this->CEventPotentialWalkIntoVehicle::CEventPotentialWalkIntoVehicle(vehicle, moveState);
     return this;
@@ -82,7 +82,7 @@ bool CEventPotentialWalkIntoVehicle::AffectsPed_Reversed(CPed* ped)
                 if (isGoToPointTask || taskEnterCarAsDriver) {
                     CVector surfacePoint;
                     CPedGeometryAnalyser::ComputeClosestSurfacePoint(*ped, *m_vehicle, surfacePoint);
-                    std::int32_t hitSide = CPedGeometryAnalyser::ComputeEntityHitSide(surfacePoint, *m_vehicle);
+                    int32_t hitSide = CPedGeometryAnalyser::ComputeEntityHitSide(surfacePoint, *m_vehicle);
                     if (hitSide != CPedGeometryAnalyser::ComputeEntityHitSide(targetPos, *m_vehicle))
                         return true;
 
@@ -95,7 +95,7 @@ bool CEventPotentialWalkIntoVehicle::AffectsPed_Reversed(CPed* ped)
     return false;
 }
 
-CEventPotentialWalkIntoObject::CEventPotentialWalkIntoObject(CObject* object, std::int32_t moveState)
+CEventPotentialWalkIntoObject::CEventPotentialWalkIntoObject(CObject* object, int32_t moveState)
 {
     m_object = object;
     m_moveState = moveState;
@@ -109,7 +109,7 @@ CEventPotentialWalkIntoObject::~CEventPotentialWalkIntoObject()
         m_object->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_object));
 }
 
-CEventPotentialWalkIntoObject* CEventPotentialWalkIntoObject::Constructor(CObject* object, std::int32_t moveState)
+CEventPotentialWalkIntoObject* CEventPotentialWalkIntoObject::Constructor(CObject* object, int32_t moveState)
 {
     this->CEventPotentialWalkIntoObject::CEventPotentialWalkIntoObject(object, moveState);
     return this;
@@ -149,9 +149,9 @@ bool CEventPotentialWalkIntoObject::AffectsPed_Reversed(CPed* ped)
     return false;
 }
 
-CEventPotentialWalkIntoFire::CEventPotentialWalkIntoFire(CVector* firePos, float fireSize, std::int32_t moveState)
+CEventPotentialWalkIntoFire::CEventPotentialWalkIntoFire(const CVector& firePos, float fireSize, int32_t moveState)
 {
-    m_firePos = *firePos;
+    m_firePos = firePos;
     m_fireSize = fireSize;
     m_moveState = moveState;
     if (fireSize < 1.0f) {
@@ -167,7 +167,7 @@ CEventPotentialWalkIntoFire::CEventPotentialWalkIntoFire(CVector* firePos, float
     }
 }
 
-CEventPotentialWalkIntoFire* CEventPotentialWalkIntoFire::Constructor(CVector* firePos, float fireSize, std::int32_t moveState)
+CEventPotentialWalkIntoFire* CEventPotentialWalkIntoFire::Constructor(const CVector& firePos, float fireSize, int32_t moveState)
 {
     this->CEventPotentialWalkIntoFire::CEventPotentialWalkIntoFire(firePos, fireSize, moveState);
     return this;
@@ -194,9 +194,9 @@ bool CEventPotentialWalkIntoFire::AffectsPed_Reversed(CPed* ped)
     return false;
 }
 
-CEventPotentialWalkIntoPed::CEventPotentialWalkIntoPed(CPed* ped, CVector* targetPoint, std::int32_t moveState)
+CEventPotentialWalkIntoPed::CEventPotentialWalkIntoPed(CPed* ped, const CVector& targetPoint, int32_t moveState)
 {
-    m_targetPoint = *targetPoint;
+    m_targetPoint = targetPoint;
     m_ped = ped;
     m_moveState = moveState;
     ped->RegisterReference(reinterpret_cast<CEntity**>(&m_ped));
@@ -208,7 +208,7 @@ CEventPotentialWalkIntoPed::~CEventPotentialWalkIntoPed()
         m_ped->CleanUpOldReference(reinterpret_cast<CEntity**>(&m_ped));
 }
 
-CEventPotentialWalkIntoPed* CEventPotentialWalkIntoPed::Constructor(CPed* ped, CVector* targetPoint, std::int32_t moveState)
+CEventPotentialWalkIntoPed* CEventPotentialWalkIntoPed::Constructor(CPed* ped, const CVector& targetPoint, int32_t moveState)
 {
     this->CEventPotentialWalkIntoPed::CEventPotentialWalkIntoPed(ped, targetPoint, moveState);
     return this;

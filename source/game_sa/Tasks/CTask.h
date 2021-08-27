@@ -27,7 +27,7 @@ public:
     CTask();
     virtual ~CTask();
 
-    virtual class CTask* Clone() = 0;
+    virtual class CTask* Clone() const = 0;
     virtual class CTask* GetSubTask() = 0;
     virtual bool IsSimple() = 0;
     virtual eTaskType GetId() = 0;

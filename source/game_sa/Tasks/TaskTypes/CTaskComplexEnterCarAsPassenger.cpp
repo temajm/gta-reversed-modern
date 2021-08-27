@@ -7,7 +7,7 @@ CTaskComplexEnterCarAsPassenger::CTaskComplexEnterCarAsPassenger(CVehicle* pTarg
     m_nTargetSeat = nTargetSeat;
 }
 
-CTask* CTaskComplexEnterCarAsPassenger::Clone()
+CTask* CTaskComplexEnterCarAsPassenger::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x6437F0, CTask*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x6437F0, CTask*>((CTask*)this);
 }

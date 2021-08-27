@@ -16,7 +16,7 @@ public:
     eEventType GetEventType() const override { return EVENT_WATER_CANNON; }
     int32_t GetEventPriority() const override { return 64; }
     int GetLifeTime() override { return 0; }
-    CEvent* Clone() override { return new CEventHitByWaterCannon(m_point, m_moveSpeed); }
+    CEvent* Clone() const override { return new CEventHitByWaterCannon(m_point, m_moveSpeed); }
     bool AffectsPed(CPed* ped) override;
     float GetLocalSoundLevel() override { return 55.0f; }
 

@@ -1,11 +1,9 @@
 #pragma once
+
 #include "CTaskComplex.h"
 #include "CVehicle.h"
 
-class CTaskComplexCarDrive : public CTaskComplex
-{
-public:
-    CTaskComplexCarDrive(plugin::dummy_func_t) : CTaskComplex() {} //TODO: remove
+class CTaskComplexCarDrive : public CTaskComplex {
 public:
     CVehicle* m_pVehicle;
     float m_fSpeed;
@@ -18,10 +16,12 @@ public:
     unsigned char m_bSavedVehicleBehavior;
     unsigned char _pad_21[3];
 
+public:
+    CTaskComplexCarDrive(plugin::dummy_func_t) : CTaskComplex() {} // TODO: remove
     CTaskComplexCarDrive(CVehicle* vehicle, float arg2, int arg3, int arg4);
     ~CTaskComplexCarDrive();
 
-    CTask* Clone() override;
+    CTask* Clone() const override;
     eTaskType GetId() override { return TASK_COMPLEX_CAR_DRIVE; }
 
     CTask* CreateNextSubTask(CPed* ped) override;
@@ -34,4 +34,3 @@ public:
 };
 
 VALIDATE_SIZE(CTaskComplexCarDrive, 0x24);
-

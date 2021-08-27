@@ -18,7 +18,7 @@ CTaskComplexSequence::CTaskComplexSequence() {
     m_nCurrentTaskIndex = 0;
     m_bRepeatSequence = 0;
     m_nSequenceRepeatedCount = 0;
-    m_bFlushTasks = 0;
+    m_bFlushTasks = false;
     m_nReferenceCount = 0;
     memset(m_aTasks, 0, sizeof(CTaskComplexSequence::m_aTasks));
 }
@@ -37,22 +37,16 @@ CTaskComplexSequence* CTaskComplexSequence::Constructor()
 #endif
 }
 
-CTask* CTaskComplexSequence::Clone()
+// 0x5F6710
+CTask* CTaskComplexSequence::Clone() const
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn<CTask*, 0x5F6710, CTask*>(this);
-#else
     return Clone_Reversed();
-#endif
 }
 
+// 0x632C60
 eTaskType CTaskComplexSequence::GetId()
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn <eTaskType, 0x632C60, CTask*>(this);
-#else
     return GetId_Reversed();
-#endif
 }
 
 // 0x632C00
@@ -61,22 +55,16 @@ bool CTaskComplexSequence::MakeAbortable(class CPed* ped, eAbortPriority priorit
     return MakeAbortable_Reversed(ped, priority, event);
 }
 
+// 0x638A40
 CTask* CTaskComplexSequence::CreateNextSubTask(CPed* ped)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn <CTask*, 0x638A40, CTask*, CPed*>(this, ped);
-#else
     return CreateNextSubTask_Reversed(ped);
-#endif
 }
 
+// 0x638A60
 CTask* CTaskComplexSequence::CreateFirstSubTask(CPed* ped)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    return plugin::CallMethodAndReturn <CTask*, 0x638A60, CTask*, CPed*>(this, ped);
-#else
     return CreateFirstSubTask_Reversed(ped);
-#endif
 }
 
 CTask* CTaskComplexSequence::ControlSubTask(CPed* ped)
@@ -88,7 +76,7 @@ CTask* CTaskComplexSequence::ControlSubTask(CPed* ped)
 #endif
 }
 
-CTask* CTaskComplexSequence::Clone_Reversed()
+CTask* CTaskComplexSequence::Clone_Reversed() const
 {
     auto pClonedComplexSequence = new CTaskComplexSequence();
     if (pClonedComplexSequence) {
@@ -101,7 +89,7 @@ CTask* CTaskComplexSequence::Clone_Reversed()
             }
             else
             {
-                pClonedComplexSequence->m_aTasks[taskIndex] = 0;
+                pClonedComplexSequence->m_aTasks[taskIndex] = nullptr;
             }
         }
 
@@ -136,11 +124,9 @@ CTask* CTaskComplexSequence::ControlSubTask_Reversed(CPed* ped)
     return m_pSubTask;
 }
 
+// 0x632D10
 void CTaskComplexSequence::AddTask(CTask* pTask)
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    plugin::CallMethod<0x632D10, CTaskComplexSequence*, CTask*>(this, pTask);
-#else
     for (unsigned int taskIndex = 0; taskIndex < 8; taskIndex++)
     {
         if (!m_aTasks[taskIndex])
@@ -149,12 +135,7 @@ void CTaskComplexSequence::AddTask(CTask* pTask)
             return;
         }
     }
-
-    if (pTask)
-    {
-        delete pTask;
-    }
-#endif
+    delete pTask;
 }
 
 CTask* CTaskComplexSequence::CreateNextSubTask(CPed* pPed, int* pTaskIndex, int* pRepeatCount)
@@ -195,24 +176,17 @@ CTask* CTaskComplexSequence::CreateNextSubTask(CPed* pPed, int* pTaskIndex, int*
 #endif
 }
 
+// 0x632C10
 void CTaskComplexSequence::Flush()
 {
-#ifdef USE_DEFAULT_FUNCTIONS
-    plugin::CallMethod<0x632C10, CTask*>(this);
-#else
     for (unsigned int taskIndex = 0; taskIndex < 8; taskIndex++)
     {
         CTask* pTask = m_aTasks[taskIndex];
-        if (pTask)
-        {
-            delete pTask;
-        }
-
-        m_aTasks[taskIndex] = 0;
+        delete pTask;
+        m_aTasks[taskIndex] = nullptr;
     }
 
     m_nCurrentTaskIndex = 0;
     m_bRepeatSequence = 0;
     m_nSequenceRepeatedCount = 0;
-#endif
 }

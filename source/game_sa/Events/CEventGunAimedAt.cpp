@@ -57,7 +57,7 @@ bool CEventGunAimedAt::TakesPriorityOver(const CEvent& refEvent)
     return CEventGunAimedAt::TakesPriorityOver_Reversed(refEvent);
 }
 
-CEventEditableResponse* CEventGunAimedAt::CloneEditable()
+CEventEditableResponse* CEventGunAimedAt::CloneEditable() const
 {
 #ifdef USE_DEFAULT_FUNCTIONS
     return plugin::CallMethodAndReturn<CEventEditableResponse*, 0x4B7630, CEvent*>(this);
@@ -109,7 +109,7 @@ bool CEventGunAimedAt::TakesPriorityOver_Reversed(const CEvent& refEvent)
     return GetEventPriority() >= refEvent.GetEventPriority();
 }
 
-CEventEditableResponse* CEventGunAimedAt::CloneEditable_Reversed()
+CEventEditableResponse* CEventGunAimedAt::CloneEditable_Reversed() const
 {
     return new CEventGunAimedAt(m_ped);
 }

@@ -36,9 +36,9 @@ CTaskComplexLeaveCar* CTaskComplexLeaveCar::Constructor(CVehicle* pTargetVehicle
         (this, pTargetVehicle, nTargetDoor, nDelayTime, bSensibleLeaveCar, bForceGetOut);
 }
 
-CTask* CTaskComplexLeaveCar::Clone()
+CTask* CTaskComplexLeaveCar::Clone() const
 {
-    return plugin::CallMethodAndReturn<CTask*, 0x63D9E0, CTask*>(this);
+    return plugin::CallMethodAndReturn<CTask*, 0x63D9E0, CTask*>((CTask*)this);
 }
 
 bool CTaskComplexLeaveCar::MakeAbortable(CPed* ped, eAbortPriority priority, const CEvent* event)
