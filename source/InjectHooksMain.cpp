@@ -39,6 +39,7 @@
 #include "Escalators.h"
 #include "MovingThings.h"
 #include "MovingThings.h"
+#include "PlaneTrail.h"
 #include "PlaneTrails.h"
 #include "Gamma.h"
 #include "CustomBuildingPipeline.h"
@@ -54,6 +55,7 @@
 #include "IKChainManager_c.h"
 #include "BreakManager_c.h"
 #include "Buoyancy.h"
+#include "CreepingFire.h"
 
 // Tasks
 #include "TaskSimpleAbseil.h"
@@ -174,6 +176,10 @@ void InjectHooksMain()
     InjectCommonHooks();
     CPad::InjectHooks();
 
+    CPlaneTrail::InjectHooks();
+    CCopPed::InjectHooks();
+    CDamageManager::InjectHooks();
+    CCreepingFire::InjectHooks();
     CPtrList::InjectHooks();
     BreakManager_c::InjectHooks();
     IKChainManager_c::InjectHooks();
@@ -377,6 +383,7 @@ void InjectHooksMain()
     CText::InjectHooks();
     ModelIndices::InjectHooks();
     CWaterCannons::InjectHooks();
+    CWaterCannon::InjectHooks();
     CSprite::InjectHooks();
     CPlaneTrails::InjectHooks();
     CCustomBuildingPipeline::InjectHooks();
