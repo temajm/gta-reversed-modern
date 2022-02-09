@@ -21,6 +21,7 @@ public:
     static void InjectHooks();
 
     void Init();
+    void Update(CVector pos, CRGBA color, uint32_t coronaIdx, uint32_t timeModifierMs, uint8_t afterHour, uint8_t beforeHour)
     void Render(float intensity);
     void RegisterPoint(CVector point);
 };

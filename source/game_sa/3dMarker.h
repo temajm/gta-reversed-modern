@@ -23,6 +23,9 @@ enum e3dMarkerType {
     MARKER3D_TORUS = 4,
     MARKER3D_CONE = 5,
     MARKER3D_CONE_NO_COLLISION = 6,
+
+    MARKER3D_NUM,
+
     MARKER3D_NA = 257
 };
 
@@ -53,12 +56,22 @@ public:
     int32       m_nOnScreenTestTime;
 
 public:
+    ~C3dMarker();
+    C3dMarker();
+
     bool AddMarker(uint32 id, uint16 type, float size, uint8 red, uint8 green, uint8 blue, uint8 alpha, uint16 pulsePeriod, float pulseFraction, int16 rotateRate);
     void DeleteMarkerObject();
     bool IsZCoordinateUpToDate();
     void Render();
     void SetZCoordinateIfNotUpToDate(float coordinate);
     void UpdateZCoordinate(CVector arg0, float arg1);
+
+private:
+    friend void InjectHooksMain();
+    static void InjectHooks();
+
+    C3dMarker* Constructor();
+    C3dMarker* Destructor();
 };
 
 VALIDATE_SIZE(C3dMarker, 0xA0);

@@ -85,6 +85,8 @@ public:
     // returns slot index; -1 if not created; for 'colour', see eHudColours 
     static int32 User3dMarkerSet(float x, float y, float z, int32 colour);
     static void User3dMarkersDraw();
+
+    RpAtomic* GetClonedAtomicForType(e3dMarkerType type);
 };
 
 // 'data' is a pointer to store atomic (RpAtomic **)

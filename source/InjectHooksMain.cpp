@@ -197,6 +197,13 @@ void InjectHooksMain() {
     CPad::InjectHooks();
     CFileMgr::InjectHooks();
 
+    C3dMarker::InjectHooks();
+    CCheckpoint::InjectHooks();
+    CPedList::InjectHooks();
+    CPlaneTrails::Vaccinate();
+    CCoverPoints::InjectHooks();
+    COnscreenCounterEntry::InjectHooks();
+    CBouncingPanel::InjectHooks();
     CWeaponInfo::InjectHooks();
     CCurrentVehicle::InjectHooks();
     CPlaceName::InjectHooks();

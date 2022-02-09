@@ -136,6 +136,10 @@ static bool IsPointInCircle2D(CVector2D point, CVector2D center, float r) {
     return DistanceBetweenPointsSquared2D(point, center) <= r * r;
 }
 
+static float FindDistanceToPlayer(CVector point, int player = -1) {
+    return (FindPlayerCoors(player) - point).Magnitude();
+}
+
 // Converts degrees to radians
 // keywords: 0.017453292 flt_8595EC
 constexpr float DegreesToRadians(float angleInDegrees) {

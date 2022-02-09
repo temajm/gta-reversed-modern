@@ -64,6 +64,10 @@ public:
         uint8 nPropertyTextIndex : 3; // see enum ePickupPropertyText
     } m_nFlags;
 
+    // message = GXT key
+    static int32 FindTextIndexForString(char* message);
+    static const char* FindStringForTextIndex(int32 index);
+
 public:
     static void InjectHooks();
 
@@ -90,10 +94,6 @@ public:
     void Update(CPlayerPed* player, CVehicle* vehicle, int32 playerId);
     // Checks if pickup collides with line (origin;target), removes pickup and creates an explosion. Used in previous GTA games for mine pickup
     void ProcessGunShot(CVector* origin, CVector* target);
-
-    // message = GXT key
-    static int32 FindTextIndexForString(char* message);
-    static const char* FindStringForTextIndex(int32 index);
 };
 
 VALIDATE_SIZE(CPickup, 0x20);

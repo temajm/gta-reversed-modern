@@ -14,14 +14,22 @@ public:
     int32 m_nCount;
     CPed* m_apPeds[30];
 
+public:
+    static void InjectHooks();
+
     void BuildListFromGroup_NoLeader(CPedGroupMembership* pedGroupMemberShip);
     void BuildListFromGroup_NotInCar_NoLeader(CPedGroupMembership* pedGroupMembership);
-    void BuildListOfPedsOfPedType(int32 pedtype);
+    void BuildListOfPedsOfPedType(int32 pedType);
     void Empty();
     void ExtractPedsWithGuns(CPedList* pedlist);
+
     void FillUpHoles();
-    void RemovePedsAttackingPedType(int32 pedtype);
+    void RemovePedsAttackingPedType(int32 pedType);
     void RemovePedsThatDontListenToPlayer();
+
+    uint32 GetCapacity() const;
+    CPed** begin() { return m_apPeds; }
+    CPed** end() { return m_apPeds + GetCapacity(); }
 };
 
 VALIDATE_SIZE(CPedList, 0x7C);
