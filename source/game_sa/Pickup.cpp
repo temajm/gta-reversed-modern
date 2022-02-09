@@ -27,11 +27,13 @@ void CPickup::ExtractAmmoFromPickup(CPlayerPed* player) {
 }
 
 // 0x455540
-const char* CPickup::FindStringForTextIndex(int32 index) {
-    if (index == 1)
+const char* CPickup::FindStringForTextIndex(int32 state) {
+    switch (state) {
+    case 1:
         return "PROP_3";
-    if (index == 2)
+    case 2:
         return "PROP_4";
+    }
     return "FESZ_CA";
 }
 
@@ -154,29 +156,4 @@ void CPickup::ProcessGunShot(CVector* start, CVector* end) {
         CExplosion::AddExplosion(nullptr, nullptr, EXPLOSION_MINE, posn, 0, true, -1.0f, false);
         Remove();
     }
-}
-
-// 0x455500
-int32 CPickup::FindTextIndexForString(const char* message) {
-    if (!message)
-        return 0;
-
-    if (stricmp(message, "PROP_3") == 0)
-        return 1;
-
-    if (stricmp(message, "PROP_4") == 0)
-        return 2;
-
-    return 0;
-}
-
-// 0x455540
-const char* CPickup::FindStringForTextIndex(int32 state) {
-    switch (state) {
-    case 1:
-        return "PROP_3";
-    case 2:
-        return "PROP_4";
-    }
-    return "FESZ_CA";
 }

@@ -4,7 +4,7 @@
 
 uint8& C3dMarkers::m_colDiamond = *(uint8*)0x8D5D8B;
 CRGBA& C3dMarkers::m_user3dMarkerColor = *(CRGBA*)0xC7C620;
-int32& C3dMarkers::NumActiveMarkers = *(int32*)0xC7C6D8;
+uint32& C3dMarkers::NumActiveMarkers = *(uint32*)0xC7C6D8;
 float& C3dMarkers::m_angleDiamond = *(float*)0xC7C700;
 bool& C3dMarkers::IgnoreRenderLimit = *(bool*)0xC7C704;
 C3dMarker (&C3dMarkers::m_aMarkerArray)[MAX_NUM_3DMARKERS] = *(C3dMarker(*)[MAX_NUM_3DMARKERS])0xC7DD58;
@@ -40,8 +40,8 @@ void C3dMarkers::InjectHooks() {
 }
 
 // 0x724E40
-int32 C3dMarkers::Init() {
-    return plugin::CallAndReturn<int32, 0x724E40>();
+void C3dMarkers::Init() {
+    plugin::Call<0x724E40>();
 }
 
 // 0x7227B0
@@ -55,20 +55,8 @@ void C3dMarkers::Shutdown() {
 }
 
 // 0x725040
-int32 C3dMarkers::Render() {
-    return plugin::CallAndReturn<int32, 0x725040>();
-}
-
-// 0x725120
-C3dMarker* C3dMarkers::PlaceMarker(uint32 id, uint16 type, CVector& posn, float size, uint8 r, uint8 g, uint8 b, uint8 a, uint16 pulsePeriod, float pulseFraction,
-                                   uint16 rotateRate, float nrm_x, float nrm_y, float nrm_z, bool zCheck) {
-    return plugin::CallAndReturn<C3dMarker*, 0x725120, uint32, uint16, CVector&, float, uint8, uint8, uint8, uint8, uint16, float, uint16, float, float, float, bool>(
-        id, type, posn, size, r, g, b, a, pulsePeriod, pulseFraction, rotateRate, nrm_x, nrm_y, nrm_z, zCheck);
-}
-
-// 0x723240
-void C3dMarkers::User3dMarkersDraw() {
-    plugin::Call<0x723240>();
+void C3dMarkers::Render() {
+    plugin::Call<0x725040>();
 }
 
 // 0x722870
@@ -76,14 +64,30 @@ void C3dMarkers::ForceRender(uint8 enable) {
     plugin::Call<0x722870, uint8>(enable);
 }
 
-// 0x722810
-RpClump* C3dMarkers::LoadMarker(char const* name) {
-    return plugin::CallAndReturn<RpClump*, 0x722810, char const*>(name);
+/*
+// 0x725120
+C3dMarker* C3dMarkers::PlaceMarker(uint32 id, uint16 type, CVector& posn, float size, uint8 r, uint8 g, uint8 b, uint8 a, uint16 pulsePeriod, float pulseFraction,
+                                   uint16 rotateRate, float nrm_x, float nrm_y, float nrm_z, bool zCheck) {
+    return plugin::CallAndReturn<C3dMarker*, 0x725120, uint32, uint16, CVector&, float, uint8, uint8, uint8, uint8, uint16, float, uint16, float, float, float, bool>(
+        id, type, posn, size, r, g, b, a, pulsePeriod, pulseFraction, rotateRate, nrm_x, nrm_y, nrm_z, zCheck);
 }
 
 // 0x725BA0
 void C3dMarkers::PlaceMarkerSet(uint32 id, uint16 type, CVector& posn, float size, uint8 r, uint8 g, uint8 b, uint8 a, uint16 pulsePeriod, float pulseFraction) {
     plugin::Call<0x725BA0, uint32, uint16, CVector&, float, uint8, uint8, uint8, uint8, uint16, float>(id, type, posn, size, r, g, b, a, pulsePeriod, pulseFraction);
+}
+
+// 0x726D40
+void C3dMarkers::PlaceMarkerCone(uint32 id, CVector& posn, float size, uint8 r, uint8 g, uint8 b, uint8 alpha, uint16 pulsePeriod, float pulseFraction, uint16 type,
+                                 uint8 bEnableCollision) {
+    plugin::Call<0x726D40, uint32, CVector&, float, uint8, uint8, uint8, uint8, uint16, float, uint16, uint8>(id, posn, size, r, g, b, alpha, pulsePeriod, pulseFraction, type,
+                                                                                                              bEnableCollision);
+}
+*/
+
+// 0x723240
+void C3dMarkers::User3dMarkersDraw() {
+    plugin::Call<0x723240>();
 }
 
 // 0x7211F0
@@ -102,8 +106,8 @@ void C3dMarkers::DirectionArrowsInit() {
 }
 
 // 0x7210D0
-RpAtomic* C3dMarkers::User3dMarkerAtomicCB(RpAtomic* a1) {
-    return plugin::CallAndReturn<RpAtomic*, 0x7210D0, RpAtomic*>(a1);
+RpAtomic* C3dMarkers::User3dMarkerAtomicCB(RpAtomic* atomic, void* _IGNORED_ data) {
+    return plugin::CallAndReturn<RpAtomic*, 0x7210D0, RpAtomic*, void*>(atomic, data);
 }
 
 // 0x7210B0
@@ -131,13 +135,6 @@ void C3dMarkers::DirectionArrowSet(CVector posn, float size, int red, int green,
     plugin::Call<0x721140, CVector, float, int32, int32, int32, int32, float, float, float>(posn, size, red, green, blue, alpha, dir_x, dir_y, dir_z);
 }
 
-// 0x726D40
-void C3dMarkers::PlaceMarkerCone(uint32 id, CVector& posn, float size, uint8 r, uint8 g, uint8 b, uint8 alpha, uint16 pulsePeriod, float pulseFraction, uint16 type,
-                                 uint8 bEnableCollision) {
-    plugin::Call<0x726D40, uint32, CVector&, float, uint8, uint8, uint8, uint8, uint16, float, uint16, uint8>(id, posn, size, r, g, b, alpha, pulsePeriod, pulseFraction, type,
-                                                                                                              bEnableCollision);
-}
-
 RpClump* C3dMarkers::GetClumpForType(e3dMarkerType type) {
     switch (type) {
     case e3dMarkerType::MARKER3D_TUBE:
@@ -147,6 +144,11 @@ RpClump* C3dMarkers::GetClumpForType(e3dMarkerType type) {
     default:
         return m_pRpClumpArray[(unsigned)type];
     }
+}
+
+// 0x722810
+RpClump* C3dMarkers::LoadMarker(char const* name) {
+    return plugin::CallAndReturn<RpClump*, 0x722810, char const*>(name);
 }
 
 // 0x5D42E0

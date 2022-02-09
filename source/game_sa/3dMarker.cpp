@@ -1,39 +1,18 @@
 #include "StdInc.h"
 
 #include "3dMarker.h"
+#include "3dMarkers.h"
 
 void C3dMarker::InjectHooks() {
     RH_ScopedClass(C3dMarker);
     RH_ScopedCategoryGlobal();
 
-    RH_ScopedInstall(Constructor, 0x720F60);
-    RH_ScopedInstall(Destructor, 0x720F70);
     RH_ScopedInstall(AddMarker, 0x722230);
     RH_ScopedInstall(DeleteMarkerObject, 0x722390);
     RH_ScopedInstall(Render, 0x7223D0);
     RH_ScopedInstall(IsZCoordinateUpToDate, 0x7226A0);
     RH_ScopedInstall(UpdateZCoordinate, 0x724D40);
     RH_ScopedInstall(SetZCoordinateIfNotUpToDate, 0x724E10);
-}
-
-// 0x720F60
-C3dMarker::C3dMarker() {
-    /* Compiler does it for us */
-}
-
-C3dMarker* C3dMarker::Constructor() {
-    this->C3dMarker::C3dMarker();
-    return this;
-}
-
-// 0x720F70
-C3dMarker::~C3dMarker() {
-    /* Compiler does it for us */
-}
-
-C3dMarker* C3dMarker::Destructor() {
-    this->C3dMarker::~C3dMarker();
-    return this;
 }
 
 // 0x722230
@@ -59,11 +38,11 @@ bool C3dMarker::AddMarker(uint32 id, e3dMarkerType type, float size, uint8 red, 
     m_nPulsePeriod = pulsePeriod;
     m_fPulseFraction = pulseFraction;
     m_nRotateRate = rotateRate;
-    m_nStartTime = CTimer::m_snTimeInMilliseconds;
+    m_nStartTime = CTimer::GetTimeInMS();
     m_vecLastPosition = CVector();
     m_nType = type;
-    m_fRoofHeight = 65535;
-    m_nOnScreenTestTime = CTimer::m_snTimeInMilliseconds;
+    m_fRoofHeight = 65535; // uint16_max or smth
+    m_nOnScreenTestTime = CTimer::GetTimeInMS();
 
     return (bool)m_pAtomic;
 }
@@ -72,8 +51,8 @@ bool C3dMarker::AddMarker(uint32 id, e3dMarkerType type, float size, uint8 red, 
 void C3dMarker::DeleteMarkerObject() {
     m_nIdentifier = 0;
     m_nStartTime = 0;
-    m_bIsUsed = 0;
-    m_bMustBeRenderedThisFrame = 0;
+    m_bIsUsed = false;
+    m_bMustBeRenderedThisFrame = false;
     m_nType = e3dMarkerType::MARKER3D_NA;
 
     RwFrame* frame = RpAtomicGetFrame(m_pAtomic);
@@ -114,8 +93,10 @@ void C3dMarker::Render() {
     }
 
     mat.Scale(m_fSize);
-    if (m_nType == e3dMarkerType::MARKER3D_TUBE)
-        mat.Scale(1.0f, 1.0f, 20.0f);
+    if (m_nType == e3dMarkerType::MARKER3D_TUBE) {
+        // todo: mat.Scale(1.0f, 1.0f, 20.0f);
+    }
+
     mat.UpdateRW();
     RwFrameUpdateObjects(RpAtomicGetFrame(m_pAtomic));
 
@@ -146,11 +127,12 @@ void C3dMarker::Render() {
     }
 
     // And finally.. render
-    RwRenderStateSet(rwRENDERSTATEZWRITEENABLE, (void*)false);
+    RwRenderStateSet(rwRENDERSTATEZWRITEENABLE, RWRSTATE(FALSE));
     if (m_nType == e3dMarkerType::MARKER3D_ARROW2)
-        RwRenderStateSet(rwRENDERSTATECULLMODE, (void*)rwCULLMODECULLNONE);
+        RwRenderStateSet(rwRENDERSTATECULLMODE, RWRSTATE(rwCULLMODECULLNONE));
+
     RpAtomicRender(m_pAtomic);
-    RwRenderStateSet(rwRENDERSTATEZWRITEENABLE, (void*)true);
+    RwRenderStateSet(rwRENDERSTATEZWRITEENABLE, RWRSTATE(TRUE));
     ReSetAmbientAndDirectionalColours();
 }
 

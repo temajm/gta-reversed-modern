@@ -16,8 +16,8 @@ void CPlaneTrails::InjectHooks() {
 
 // 0x717370
 void CPlaneTrails::Init() {
-    for (int i = 0; i < NUM_PLANE_TRAILS; i++) {
-        aArray[i].Init();
+    for (auto& trail : aArray) {
+        trail.Init();
     }
 }
 
@@ -31,8 +31,8 @@ void CPlaneTrails::Render() {
     const float fFinalIntensity = std::max(fMaxColor, fIntensity);
 
     if (fFinalIntensity > 0.0001f) {
-        for (int i = 0; i < NUM_PLANE_TRAILS; i++) {
-            aArray[i].Render(fFinalIntensity);
+        for (auto& trail : aArray) {
+            trail.Render(fFinalIntensity);
         }
     }
 }
@@ -44,9 +44,9 @@ void CPlaneTrails::RegisterPoint(CVector pos, uint32_t point) {
 
 // 0x7174F0
 void CPlaneTrails::Update() {
-    const uint32_t coronaBaseId = 101;
+    const uint32 coronaBaseId = 101;
 
-    aArray[0].Update(CVector(2590.0f, 2200.0f, 550.0f), CRGBA(255, 0, 0, 255), coronaBaseId, 0, 22, 7);
+    aArray[0].Update(CVector(2590.0f, 2200.0f, 550.0f),  CRGBA(255, 0, 0, 255),     coronaBaseId,     0,   22, 7);
     aArray[1].Update(CVector(2000.0f, -2600.0f, 500.0f), CRGBA(255, 255, 128, 255), coronaBaseId + 1, 350, 21, 7);
-    aArray[2].Update(CVector(2100.0f, 1300.0f, 600.0f), CRGBA(255, 255, 255, 255), coronaBaseId + 2, 200, 20, 6);
+    aArray[2].Update(CVector(2100.0f, 1300.0f, 600.0f),  CRGBA(255, 255, 255, 255), coronaBaseId + 2, 200, 20, 6);
 }

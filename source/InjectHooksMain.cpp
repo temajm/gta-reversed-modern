@@ -28,6 +28,12 @@
 #include "AEPedlessSpeechAudioEntity.h"
 #include "AEPoliceScannerAudioEntity.h"
 #include "AudioEngine.h"
+#include "3dMarker.h"
+#include "Checkpoint.h"
+#include "PedList.h"
+#include "PlaneTrails.h"
+#include "CoverPoints.h"
+#include "BouncingPanel.h"
 
 #include "CDebugMenu.h"
 
@@ -200,10 +206,10 @@ void InjectHooksMain() {
     C3dMarker::InjectHooks();
     CCheckpoint::InjectHooks();
     CPedList::InjectHooks();
-    CPlaneTrails::Vaccinate();
+    CPlaneTrails::InjectHooks();
     CCoverPoints::InjectHooks();
-    COnscreenCounterEntry::InjectHooks();
     CBouncingPanel::InjectHooks();
+    COnscreenCounterEntry::InjectHooks();
     CWeaponInfo::InjectHooks();
     CCurrentVehicle::InjectHooks();
     CPlaceName::InjectHooks();

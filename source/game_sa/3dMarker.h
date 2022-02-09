@@ -56,8 +56,10 @@ public:
     int32       m_nOnScreenTestTime;
 
 public:
-    ~C3dMarker();
-    C3dMarker();
+    static void InjectHooks();
+
+    ~C3dMarker() = default; // 0x720F60
+    C3dMarker() = default;  // 0x720F70
 
     bool AddMarker(uint32 id, uint16 type, float size, uint8 red, uint8 green, uint8 blue, uint8 alpha, uint16 pulsePeriod, float pulseFraction, int16 rotateRate);
     void DeleteMarkerObject();
@@ -65,13 +67,6 @@ public:
     void Render();
     void SetZCoordinateIfNotUpToDate(float coordinate);
     void UpdateZCoordinate(CVector arg0, float arg1);
-
-private:
-    friend void InjectHooksMain();
-    static void InjectHooks();
-
-    C3dMarker* Constructor();
-    C3dMarker* Destructor();
 };
 
 VALIDATE_SIZE(C3dMarker, 0xA0);

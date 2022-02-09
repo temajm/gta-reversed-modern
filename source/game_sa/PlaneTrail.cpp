@@ -16,16 +16,17 @@ void CPlaneTrail::Init() {
     std::ranges::fill(m_timepoints, 0);
 }
 
-void CPlaneTrail::Update(CVector pos, CRGBA color, uint32_t coronaIdx, uint32_t timeModifierMs, uint8_t afterHour, uint8_t beforeHour) {
+// NOTSA
+void CPlaneTrail::Update(CVector pos, CRGBA color, uint32 coronaIdx, uint32 timeModifierMs, uint8 afterHour, uint8 beforeHour) {
     const float fTimeProg = (float)(CTimer::m_snTimeInMilliseconds % 131072) / 20860.0f; // or * 0.000047936901.. Not sure where this comes from..
     const CVector currPos = pos * CVector(sin(fTimeProg), cos(fTimeProg), 1.0f);
 
     RegisterPoint(currPos);
 
-    const uint32_t hourNow = CClock::ms_nGameClockHours;
+    const uint32 hourNow = CClock::ms_nGameClockHours;
     if (hourNow > afterHour || hourNow < beforeHour) {
-        if ((CTimer::m_snTimeInMilliseconds + timeModifierMs) & 512)
-            CCoronas::RegisterCorona(coronaIdx, nullptr, color.r, color.g, color.b, color.a, currPos, 5.0f, 2000.0f, eCoronaType::CORONATYPE_HEADLIGHT, eCoronaFlareType::FLARETYPE_NONE, false, false, false, 0.0f, false, 1.5f, 0, 15.0f, false, false);
+        if ((CTimer::GetTimeInMS() + timeModifierMs) & 512)
+            CCoronas::RegisterCorona(coronaIdx, nullptr, color.r, color.g, color.b, color.a, currPos, 5.0f, 2000.0f, CORONATYPE_HEADLIGHT, FLARETYPE_NONE, false, false, false, 0.0f, false, 1.5f, 0, 15.0f, false, false);
         else
             CCoronas::UpdateCoronaCoors(coronaIdx, currPos, 2000.0f, 0.0f);
     }
@@ -33,7 +34,7 @@ void CPlaneTrail::Update(CVector pos, CRGBA color, uint32_t coronaIdx, uint32_t 
 
 // 0x717180
 void CPlaneTrail::Render(float intensity) {
-    const int32 maxAlpha = (int32)(intensity * 110.0f);
+    const auto maxAlpha = (int32)(intensity * 110.0f);
     if (!maxAlpha)
         return;
 
@@ -60,8 +61,9 @@ void CPlaneTrail::Render(float intensity) {
         RwRenderStateSet(rwRENDERSTATESRCBLEND,          RWRSTATE(rwBLENDSRCALPHA));
         RwRenderStateSet(rwRENDERSTATEDESTBLEND,         RWRSTATE(rwBLENDINVSRCALPHA));
         RwRenderStateSet(rwRENDERSTATETEXTURERASTER,     RWRSTATE(NULL));
+
         if (RwIm3DTransform(vertBuff, nVertices, nullptr, rwIM3D_VERTEXXYZ | rwIM3D_VERTEXRGBA)) {
-            static RwImVertexIndex indices[] = { // From 0x8D5B98, size 30
+            static RwImVertexIndex indices[] = { // 0x8D5B98, size 30
                 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15
             };
             RwIm3DRenderIndexedPrimitive(rwPRIMTYPELINELIST, indices, 2 * nVertices - 2);

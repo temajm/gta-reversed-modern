@@ -36,21 +36,21 @@ struct tDirectionArrow {
 
 VALIDATE_SIZE(tDirectionArrow, 0x30);
 
-extern uint32 MAX_NUM_3DMARKERS; // default 32
-extern uint32 MAX_NUM_USER_3DMARKERS; // default 5
-extern uint32 MAX_NUM_DIRECTION_ARROWS; // default 5
+static constexpr auto MAX_NUM_3DMARKERS{ 32u };
+static constexpr auto MAX_NUM_USER_3DMARKERS{ 5u };
+static constexpr auto MAX_NUM_DIRECTION_ARROWS{ 5u };
 
 class C3dMarkers {
 public:
-    static uint8 &m_colDiamond; // default 255
-    static tDirectionArrow *ms_directionArrows;
-    static CRGBA &m_user3dMarkerColor;
-    static tUser3dMarker *ms_user3dMarkers;
-    static bool &IgnoreRenderLimit;
-    static float &m_angleDiamond;
-    static uint32 &NumActiveMarkers;
-    static C3dMarker *m_aMarkerArray;
-    static RpClump **m_pRpClumpArray;
+    static uint8&           m_colDiamond; // default 255
+    static CRGBA&           m_user3dMarkerColor;
+    static tUser3dMarker*   (&ms_user3dMarkers)[MAX_NUM_USER_3DMARKERS];
+    static tDirectionArrow* (&ms_directionArrows)[MAX_NUM_DIRECTION_ARROWS];
+    static bool&            IgnoreRenderLimit;
+    static float&           m_angleDiamond;
+    static uint32&          NumActiveMarkers;
+    static C3dMarker        (&m_aMarkerArray)[MAX_NUM_3DMARKERS];
+    static RpClump*         (&m_pRpClumpArray)[MARKER3D_NUM];
 
 public:
     static void InjectHooks();
@@ -87,6 +87,7 @@ public:
     static void User3dMarkersDraw();
 
     RpAtomic* GetClonedAtomicForType(e3dMarkerType type);
+    RpClump* GetClumpForType(e3dMarkerType type);
 };
 
 // 'data' is a pointer to store atomic (RpAtomic **)

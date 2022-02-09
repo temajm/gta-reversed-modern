@@ -8,7 +8,7 @@
 
 #include "PlaneTrail.h"
 
-#define NUM_PLANE_TRAILS 3
+static constexpr auto NUM_PLANE_TRAILS { 32u };
 
 class CPlaneTrails {
 public:
@@ -17,7 +17,6 @@ public:
 public:
     static void InjectHooks();
 
-public:
     static void Init();
     static void Render();
     static void RegisterPoint(CVector point, uint32 trailIndex);
