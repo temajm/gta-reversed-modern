@@ -443,8 +443,8 @@ public:
     // These two should probably be moved to a better place..
     bool IsFrontWheel(eCarWheel wheel) const {
         switch (wheel) {
-        case eCarWheel::CARWHEEL_FRONT_LEFT:
-        case eCarWheel::CARWHEEL_FRONT_RIGHT:
+        case CARWHEEL_FRONT_LEFT:
+        case CARWHEEL_FRONT_RIGHT:
             return true;
         }
         return false;
