@@ -1,5 +1,5 @@
 /*
-    Plugin-SDK (Grand Theft Auto San Andreas) header file
+    Plugin-SDK file
     Authors: GTA Community. See more here
     https://github.com/DK22Pac/plugin-sdk
     Do not delete this comment block. Respect others' work!
@@ -10,26 +10,28 @@
 #include "ObjectData.h"
 
 enum eObjectType {
-    OBJECT_UNKNOWN = 0,
-    OBJECT_GAME = 1,
-    OBJECT_MISSION = 2,
-    OBJECT_TEMPORARY = 3,
-    OBJECT_TYPE_CUTSCENE = 4,
+    OBJECT_UNKNOWN         = 0,
+    OBJECT_GAME            = 1,
+    OBJECT_MISSION         = 2,
+    OBJECT_TEMPORARY       = 3, // AKA OBJECT_TYPE_FLYING_COMPONENT
+    OBJECT_TYPE_CUTSCENE   = 4,
     OBJECT_TYPE_DECORATION = 5, // Hand object, projectiles, escalator step, water creatures, no clue what this enum value should be called
-    OBJECT_MISSION2 = 6
+    OBJECT_MISSION2        = 6
 };
 
 class CDummyObject;
+class CFire;
 
 class CObject : public CPhysical {
 public:
     CObject();
     CObject(int32 modelId, bool bCreate);
     CObject(CDummyObject* pDummyObj);
-    ~CObject();
+    ~CObject() override;
+
     static void* operator new(uint32 size);
     static void* operator new(uint32 size, int32 iPoolRef);
-    static void  operator delete(void* pObj);
+    static void  operator delete(void* obj);
 
 public:
     CPtrNodeDoubleLink* m_pControlCodeList;
@@ -38,14 +40,14 @@ public:
     uint16              m_wCostValue;
     union {
         struct {
-            uint32 bIsPickup : 1;
-            uint32 b0x02 : 1;
-            uint32 bPickupPropertyForSale : 1;
-            uint32 bPickupInShopOutOfStock : 1;
-            uint32 bGlassBroken : 1;
-            uint32 b0x20 : 1;
-            uint32 bIsExploded : 1;
-            uint32 bChangesVehColor : 1;
+            uint32 bIsPickup : 1;               // 0x1
+            uint32 b0x02 : 1;                   // 0x2
+            uint32 bPickupPropertyForSale : 1;  // 0x4
+            uint32 bPickupInShopOutOfStock : 1; // 0x8
+            uint32 bGlassBroken : 1;            // 0x10
+            uint32 b0x20 : 1;                   // 0x20 - Something glass related, see `WindowRespondsToCollision`
+            uint32 bIsExploded : 1;             // 0x40
+            uint32 bChangesVehColor : 1;        // 0x80
 
             uint32 bIsLampPost : 1;
             uint32 bIsTargatable : 1;
@@ -89,12 +91,12 @@ public:
     float         m_fDoorStartAngle; // this is used for door objects
     float         m_fScale;
     CObjectData*  m_pObjectInfo;
-    class CFire*  m_pFire; // CFire *
+    CFire*        m_pFire; // CFire *
     int16         m_wScriptTriggerIndex;
     int16         m_wRemapTxd;     // this is used for detached car parts
     RwTexture*    m_pRemapTexture; // this is used for detached car parts
     CDummyObject* m_pDummyObject;  // used for dynamic objects like garage doors, train crossings etc.
-    uint32      m_dwBurnTime;    // time when particles must be stopped
+    uint32        m_nBurnTime;     // time when particles must be stopped
     float         m_fBurnDamage;
 
     static uint16& nNoTempObjects;
@@ -110,8 +112,8 @@ public:
     void  CreateRwObject() override;
     void  ProcessControl() override;
     void  Teleport(CVector destination, bool resetRotation) override;
-    void  SpecialEntityPreCollisionStuff(CEntity* colEntity, bool bIgnoreStuckCheck, bool* bCollisionDisabled, bool* bCollidedEntityCollisionIgnored, bool* bCollidedEntityUnableToMove, bool* bThisOrCollidedEntityStuck) override;
-    uint8 SpecialEntityCalcCollisionSteps(bool* bProcessCollisionBeforeSettingTimeStep, bool* unk2) override;
+    void  SpecialEntityPreCollisionStuff(CPhysical* colPhysical, bool bIgnoreStuckCheck, bool& bCollisionDisabled, bool& bCollidedEntityCollisionIgnored, bool& bCollidedEntityUnableToMove, bool& bThisOrCollidedEntityStuck) override;
+    uint8 SpecialEntityCalcCollisionSteps(bool& bProcessCollisionBeforeSettingTimeStep, bool& unk2) override;
     void  PreRender() override;
     void  Render() override;
     bool  SetupLighting() override;
@@ -123,8 +125,8 @@ private:
     void  CreateRwObject_Reversed();
     void  ProcessControl_Reversed();
     void  Teleport_Reversed(CVector destination, bool resetRotation);
-    void  SpecialEntityPreCollisionStuff_Reversed(CEntity* colEntity, bool bIgnoreStuckCheck, bool* bCollisionDisabled, bool* bCollidedEntityCollisionIgnored, bool* bCollidedEntityUnableToMove, bool* bThisOrCollidedEntityStuck);
-    uint8 SpecialEntityCalcCollisionSteps_Reversed(bool* bProcessCollisionBeforeSettingTimeStep, bool* unk2);
+    void  SpecialEntityPreCollisionStuff_Reversed(CPhysical* colPhysical, bool bIgnoreStuckCheck, bool& bCollisionDisabled, bool& bCollidedEntityCollisionIgnored, bool& bCollidedEntityUnableToMove, bool& bThisOrCollidedEntityStuck);
+    uint8 SpecialEntityCalcCollisionSteps_Reversed(bool& bProcessCollisionBeforeSettingTimeStep, bool& unk2);
     void  PreRender_Reversed();
     void  Render_Reversed();
     bool  SetupLighting_Reversed();
@@ -138,7 +140,7 @@ public:
     bool     CanBeDeleted();
     void     SetRelatedDummy(CDummyObject* relatedDummy);
     bool     TryToExplode();
-    void     SetObjectTargettable(uint8 targetable);
+    void     SetObjectTargettable(bool targetable);
     bool     CanBeTargetted();
     void     RefModelInfo(int32 modelIndex);
     void     SetRemapTexture(RwTexture* remapTexture, int16 txdIndex);
@@ -185,7 +187,7 @@ public:
     }
     inline bool IsFallenLampPost() const { return objectFlags.bIsLampPost && m_matrix->GetUp().z < 0.66F; }
     inline bool IsExploded() const { return objectFlags.bIsExploded; }
-    inline bool CanBeSmashed() const { return m_nColDamageEffect >= eObjectColDamageEffect::COL_DAMAGE_EFFECT_SMASH_COMPLETELY; }
+    inline bool CanBeSmashed() const { return m_nColDamageEffect >= COL_DAMAGE_EFFECT_SMASH_COMPLETELY; }
 };
 VALIDATE_SIZE(CObject, 0x17C);
 

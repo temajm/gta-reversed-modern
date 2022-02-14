@@ -1,5 +1,5 @@
 /*
-    Plugin-SDK (Grand Theft Auto San Andreas) header file
+    Plugin-SDK file
     Authors: GTA Community. See more here
     https://github.com/DK22Pac/plugin-sdk
     Do not delete this comment block. Respect others' work!
@@ -72,9 +72,15 @@ public:
 };
 VALIDATE_SIZE(cVehicleParams, 0x4C);
 
-struct tVehicleSound {
+class tVehicleSound {
+public:
     uint32    m_nIndex;
     CAESound* m_pSound;
+
+    void Init(auto index) {
+        m_nIndex = index;
+        m_pSound = nullptr;
+    }
 };
 VALIDATE_SIZE(tVehicleSound, 0x8);
 
@@ -210,8 +216,8 @@ public:
     static void StoppedUsingBankSlot(int16 bankSlot);
     static tVehicleAudioSettings GetVehicleAudioSettings(int16 vehId);
 
-    void AddAudioEvent(eAudioEvents audioEvent, float fVolume); // (void(*)(eAudioEvents, float))
-    void AddAudioEvent(int32 soundId, CVehicle* vehicle); // (void(*)(int32, CVehicle*))
+    void AddAudioEvent(eAudioEvents soundId, float fVolume);
+    void AddAudioEvent(eAudioEvents soundId, CEntity* entity);
 
     void Service();
     static void StaticService() { /* Empty on purpose */ }
@@ -223,7 +229,7 @@ public:
     bool IsAccInhibitedBackwards(cVehicleParams& params);
     bool IsAccInhibitedForLowSpeed(cVehicleParams& params);
     bool IsAccInhibitedForTime();
-    bool IsCrzInhibitedForTime();
+    bool IsCrzInhibitedForTime() const;
 
     void JustGotInVehicleAsDriver();
     void TurnOnRadioForVehicle();
@@ -239,7 +245,7 @@ public:
     void PlayTrainBrakeSound(int16 soundType, float speed, float volume);
     void JustGotOutOfVehicleAsDriver();
 
-    void InhibitCrzForTime(uint32);
+    void InhibitCrzForTime(uint32 time) { m_nTimeToInhibitCrz = time + CTimer::GetTimeInMS(); } // 0x4F5060
 
     void CancelVehicleEngineSound(int16);
     void RequestNewPlayerCarEngineSound(int16 vehicleSoundId, float speed, float changeSound);
@@ -253,10 +259,7 @@ public:
     void UpdateGenericVehicleSound(int16 soundId, int16 bankSlotId, int16 bankId, int16 sfxId, float speed, float volume, float distance);
 
     static void EnableHelicoptors();
-    void EnableHelicoptor();
-
     static void DisableHelicoptors();
-    void DisableHelicoptor();
 
     float GetVolumeForDummyIdle(float, float);
     float GetFrequencyForDummyIdle(float, float);

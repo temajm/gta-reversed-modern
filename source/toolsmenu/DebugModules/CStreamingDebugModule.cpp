@@ -3,30 +3,16 @@
 #ifdef EXTRA_DEBUG_FEATURES
 
 #include "CStreamingDebugModule.h"
-#include <Streaming.h>
+#include "Streaming.h"
 
 #include "imgui.h"
 
 namespace CStreamingDebugModule {
-void ProcessImGUI() {
+void ProcessImGui() {
     using namespace ImGui;
 
     if (Button("ReInit")) {
         CStreaming::ReInit();
-    }
-
-    SameLine(GetColumnWidth());
-    if (Button("Rnd. teleport")) {
-        const CVector2D pos{
-            CGeneral::GetRandomNumberInRange(-3072.0f, 3072.0f),
-            CGeneral::GetRandomNumberInRange(-3072.0f, 3072.0f),
-        };
-        CStreaming::LoadSceneCollision({ pos.x, pos.y, 100.f }); // Make sure collision is loaded, otherwise `FindGroundZForCoord` wont work
-        FindPlayerPed()->Teleport({
-            pos.x, 
-            pos.y,
-            CWorld::FindGroundZForCoord(pos.x, pos.y) + 2.f
-        }, true);
     }
 
     Text("Memory: %u Ki", CStreaming::ms_memoryUsed / 1024);
