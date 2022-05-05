@@ -593,10 +593,11 @@ void CTrain::ProcessControl()
                 {
                     fTheTrainSpeed = -fTheTrainSpeed;
                 }
-                if (fTheTrainSpeed > 1.0f * 0.95f)
+                if (fTheTrainSpeed > 1.0 * 0.94999999)
                 {
-                    CPad::GetPad()->StartShake(300, 70, 0);
-                    TheCamera.CamShake(0.1f, GetPosition());
+                    CPad::GetPad(0)->StartShake(300, 0x46u, 0);
+                    CVector vecVehiclePosition = GetPosition();
+                    TheCamera.CamShake(0.1f, vecVehiclePosition.x, vecVehiclePosition.y, vecVehiclePosition.z);
                 }
 
                 fTheTrainSpeed = m_fTrainSpeed;
