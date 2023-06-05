@@ -66,6 +66,9 @@ public:
 
     [[nodiscard]] static bool IsActive() { return m_bActive; } // 0x744DB5
     static CSprite2d& GetCurrentDisplayedSplash() { return m_aSplashes[m_currDisplayedSplash]; }
+
+    //! NOTSA - Skips the copyright splash
+    static void SkipCopyrightSplash();
 };
 
 void LoadingScreen(const char* msg1, const char* msg2 = nullptr, const char* msg3 = nullptr);

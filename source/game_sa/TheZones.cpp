@@ -21,7 +21,6 @@ int16& CTheZones::TotalNumberOfNavigationZones = *(int16*)0xBA3794;
 CZone (&CTheZones::MapZoneArray)[39] = *(CZone(*)[39])0xBA1908;
 
 int16& CTheZones::TotalNumberOfZoneInfos = *(int16*)0xBA1DE8;
-CZoneInfo* CTheZones::ZoneInfoArray = (CZoneInfo*)0xBA1DF0;
 
 void CTheZones::InjectHooks() {
     RH_ScopedClass(CTheZones);
@@ -135,6 +134,27 @@ void CTheZones::CreateZone(const char* name, eZoneType type, float posX1, float 
 // 0x572B80
 bool CTheZones::FindZone(CVector* point, int32 zonename_part1, int32 zonename_part2, eZoneType type) {
     return ((bool(__cdecl*)(CVector*, int32, int32, eZoneType))0x572B80)(point, zonename_part1, zonename_part2, type);
+}
+
+//! Find zone by name `name` and of type `type` and check if `point` lies within it
+bool CTheZones::FindZone(const CVector& point, std::string_view name, eZoneType type) {
+    switch (type) {
+    case ZONE_TYPE_INFO:
+    case ZONE_TYPE_NAVI:
+        break;
+    default:
+        return false;
+    }
+
+    for (auto& zone : GetNavigationZones()) {
+        if ((type == ZONE_TYPE_INFO ? zone.GetInfoLabel() : zone.GetNaviLabel()) == name) {
+            if (PointLiesWithinZone(&point, &zone)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 // Returns pointer to zone by index

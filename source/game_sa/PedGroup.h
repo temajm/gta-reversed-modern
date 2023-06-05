@@ -40,7 +40,8 @@ public:
     // NOTSA
     inline CPedGroupIntelligence& GetIntelligence() { return m_groupIntelligence; }
 
-    int32 GetId();
+    int32 GetId() const;
+    bool IsActive() const;
 
     inline auto& GetMembership() const { return m_groupMembership; }
     inline auto& GetMembership() { return m_groupMembership; }

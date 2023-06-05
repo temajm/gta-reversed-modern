@@ -14,7 +14,7 @@ void CPlaceable::InjectHooks() {
 
     RH_ScopedOverloadedInstall(SetPosn, "xyz", 0x420B80, void(CPlaceable::*)(float, float, float));
     RH_ScopedOverloadedInstall(SetPosn, "vector", 0x4241C0, void(CPlaceable::*)(const CVector&));
-    RH_ScopedInstall(SetOrientation, 0x439A80);
+    RH_ScopedOverloadedInstall(SetOrientation, "xyz", 0x439A80, void(CPlaceable::*)(float, float, float));
     RH_ScopedInstall(SetHeading, 0x43E0C0);
     RH_ScopedInstall(GetHeading, 0x441DB0);
     RH_ScopedOverloadedInstall(IsWithinArea, "xy", 0x54F200, bool(CPlaceable::*)(float, float, float, float) const);
@@ -182,7 +182,7 @@ bool CPlaceable::IsPointInRange(const CVector& point, float range) {
     return DistanceBetweenPointsSquared(point, GetPosition()) <= sq(range);
 }
 
-CMatrixLink& CPlaceable::GetMatrix() {
+CMatrix& CPlaceable::GetMatrix() {
     if (!m_matrix) {
         CPlaceable::AllocateMatrix();
         m_placement.UpdateMatrix(m_matrix);

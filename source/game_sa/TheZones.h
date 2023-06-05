@@ -21,7 +21,8 @@ public:
     static int16&      TotalNumberOfMapZones;        // Map zones
     static CZone       (&MapZoneArray)[39];
     static int16&      TotalNumberOfZoneInfos;
-    static CZoneInfo*  ZoneInfoArray;
+    
+    static inline std::array<CZoneInfo, 380>& ZoneInfoArray = *(std::array<CZoneInfo, 380>*)0xBA1DF0;
 
 public:
     static void InjectHooks();
@@ -48,7 +49,11 @@ public:
     static void Init();
     static void SetCurrentZoneAsUnlocked();
     static void CreateZone(const char* name, eZoneType type, float posX1, float posY1, float posZ1, float posX2, float posY2, float posZ2, eLevelName island, const char* GXT_key);
+
     static bool FindZone(CVector* point, int32 zonename_part1, int32 zonename_part2, eZoneType type);
+
+    
+    static bool FindZone(const CVector& point, std::string_view name, eZoneType type);
     static int16 FindZoneByLabel(const char* name, eZoneType type);
     static void SetZoneRadarColours(int16 index, char flag, uint8 red, uint8 green, uint8 blue);
 
@@ -67,5 +72,12 @@ public:
             return nullptr;
 
         return &ZoneInfoArray[idx];
+    }
+
+    [[deprecated]]
+    static auto GetNaviZones() { return std::span{ NavigationZoneArray, (size_t)(TotalNumberOfNavigationZones) }; }
+    
+    static auto GetNavigationZones() {
+        return std::span{NavigationZoneArray, (size_t)TotalNumberOfNavigationZones};
     }
 };
